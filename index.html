@@ -4,15 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#03A6A6">
-    <title>Reservin - Reservasi Restoran Solo</title>
+    <title>Reservin - Reservasi Restoran & Cafe Solo</title>
     
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- PWA Manifest -->
     <link rel="manifest" href="#" id="manifest-placeholder">
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        
         :root {
             --primary: #03A6A6;
             --secondary: #000000;
@@ -20,6 +26,12 @@
             --danger: #ED3F27;
             --light: #ffffff;
             --dark: #000000;
+            --text-light: #000000;
+            --text-dark: #ffffff;
+            --bg-light: #f8f9fa;
+            --bg-dark: #1a1a1a;
+            --card-light: #ffffff;
+            --card-dark: #2a2a2a;
         }
         
         * {
@@ -27,146 +39,173 @@
         }
         
         body {
-            background-color: #f8f9fa;
-            padding-top: 70px;
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            padding-top: 80px;
+            transition: all 0.3s ease;
         }
         
         body.dark-mode {
-            background-color: #1a1a1a;
-            color: var(--light);
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
         }
         
         body.dark-mode .card {
-            background-color: #2a2a2a;
-            color: var(--light);
+            background-color: var(--card-dark);
+            color: var(--text-dark);
+            border-color: #444;
         }
         
-        body.dark-mode .navbar {
-            background-color: #2a2a2a !important;
+        .navbar {
+            background-color: var(--primary) !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        body.dark-mode .modal-content {
+            background-color: var(--card-dark);
+            color: var(--text-dark);
         }
         
         body.dark-mode .form-control,
         body.dark-mode .form-select {
-            background-color: #3a3a3a;
-            color: var(--light);
-            border-color: #4a4a4a;
+            background-color: #333;
+            color: #fff;
+            border-color: #555;
         }
         
-        .navbar-custom {
-            background-color: var(--light);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        body.dark-mode .form-control:focus,
+        body.dark-mode .form-select:focus {
+            background-color: #444;
+            color: #fff;
+            border-color: var(--primary);
         }
         
-        .navbar-brand img {
-            height: 40px;
+        body.dark-mode .text-muted {
+            color: #aaa !important;
         }
         
-        .carousel-promo {
-            height: 200px;
-            object-fit: cover;
+        body.dark-mode .btn-close {
+            filter: invert(1);
         }
         
-        .nav-tabs .nav-link {
-            color: var(--secondary);
-            border: none;
+        body.dark-mode .carousel-caption {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 2rem;
+            color: white !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .navbar-brand i {
+            font-size: 2.5rem;
+        }
+        
+        /* Default (MODE SIANG) */
+        .nav-link {
+            color: var(--text-light);
             font-weight: 500;
+            transition: all 0.3s;
+            margin: 0 5px;
+        }
+
+        /* MODE GELAP */
+        body.dark-mode .nav-link {
+            color: white;
         }
         
-        body.dark-mode .nav-tabs .nav-link {
-            color: var(--light);
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
         }
         
-        .nav-tabs .nav-link.active {
-            color: var(--primary);
-            border-bottom: 3px solid var(--primary);
-            background: transparent;
+        .btn-primary:hover {
+            background-color: #028a8a;
+            border-color: #028a8a;
         }
         
-        .resto-card {
+        .btn-danger {
+            background-color: var(--danger);
+            border-color: var(--danger);
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            border-color: var(--success);
+            color: var(--secondary);
+        }
+        
+        .carousel-item img {
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        
+        .restaurant-card {
+            transition: transform 0.3s;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border-radius: 15px;
-            overflow: hidden;
+            margin-bottom: 20px;
             height: 100%;
         }
         
-        .resto-card:hover {
+        .restaurant-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
-        .resto-card img {
+        .restaurant-card img {
+            height: 180px;
             width: 100%;
-            height: 200px;
             object-fit: cover;
+            border-radius: 10px 10px 0 0;
         }
         
-        .btn-primary-custom {
-            background-color: var(--primary);
-            border: none;
-            color: white;
-            padding: 10px 30px;
-            border-radius: 50px;
-            font-weight: 500;
+        .detail-carousel {
+            aspect-ratio: 1 / 2;
+            object-fit: cover;
+            border-radius: 10px;
+            width: 100%;
         }
         
-        .btn-primary-custom:hover {
-            background-color: #028a8a;
+        .carousel-inner {
+            border-radius: 10px;
         }
         
-        .btn-danger-custom {
-            background-color: var(--danger);
-            border: none;
-            color: white;
-            padding: 10px 30px;
-            border-radius: 50px;
+        .tab-content {
+            min-height: 400px;
         }
         
-        .booking-badge {
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
+        .booking-card {
+            border-left: 4px solid var(--primary);
         }
         
-        .badge-upcoming {
-            background-color: #ffc107;
-            color: #000;
+        .booking-card.completed {
+            border-left-color: var(--success);
         }
         
-        .badge-completed {
-            background-color: #28a745;
-            color: white;
-        }
-        
-        .badge-cancelled {
-            background-color: var(--danger);
-            color: white;
+        .booking-card.cancelled {
+            border-left-color: var(--danger);
         }
         
         .qr-code {
             width: 200px;
             height: 200px;
             margin: 20px auto;
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f0f0;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
         }
         
-        .theme-toggle {
-            cursor: pointer;
-            font-size: 20px;
-            color: var(--secondary);
-        }
-        
-        body.dark-mode .theme-toggle {
-            color: var(--light);
-        }
-        
-        .page {
-            display: none;
-        }
-        
-        .page.active {
-            display: block;
+        body.dark-mode .qr-code {
+            background: #333;
+            border-color: #555;
         }
         
         .profile-img {
@@ -177,112 +216,563 @@
             border: 4px solid var(--primary);
         }
         
-        .list-group-item {
-            cursor: pointer;
-            transition: background-color 0.3s;
+        .search-btn {
+            background-color: white;
+            border: none;
+            color: var(--primary);
         }
         
-        .list-group-item:hover {
-            background-color: #f0f0f0;
+        .search-btn:hover {
+            background-color: var(--success);
+            color: var(--secondary);
         }
         
-        body.dark-mode .list-group-item {
-            background-color: #2a2a2a;
-            border-color: #3a3a3a;
-            color: var(--light);
+        .dark-mode-btn {
+            background-color: white;
+            border: none;
+            color: var(--primary);
+            margin-left: 5px;
         }
         
-        body.dark-mode .list-group-item:hover {
-            background-color: #3a3a3a;
+        .dark-mode-btn:hover {
+            background-color: var(--success);
+            color: var(--secondary);
         }
         
-        .search-modal .modal-content {
+        body.dark-mode .search-btn,
+        body.dark-mode .dark-mode-btn {
+            background-color: #333;
+            color: white;
+        }
+        
+        body.dark-mode .search-btn:hover,
+        body.dark-mode .dark-mode-btn:hover {
+            background-color: var(--primary);
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .badge-custom {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        
+        .auth-container {
+            max-width: 450px;
+            margin: 50px auto;
+            padding: 30px;
+        }
+        
+        .logo-auth {
+            font-size: 3.5rem;
+            color: var(--primary);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .nav-pills .nav-link {
+            color: #000000;
+            border: 2px solid var(--primary);
+            margin: 0 5px;
+            font-weight: 500;
+        }
+        
+        .nav-pills .nav-link.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        body.dark-mode .nav-pills .nav-link {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        body.dark-mode .nav-pills .nav-link.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .navbar-toggler {
+            border-color: white;
+        }
+        
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        
+        .detail-page {
+            background-color: var(--bg-light);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+        
+        body.dark-mode .detail-page {
+            background-color: var(--bg-dark);
+        }
+        
+        .detail-page .card {
+            margin-bottom: 20px;
+        }
+        
+        .back-btn {
+            margin-bottom: 20px;
+        }
+        
+        body.dark-mode .btn-outline-primary {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        body.dark-mode .btn-outline-primary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .nav-tabs .nav-link {
+            color: var(--text-light);
+        }
+        
+        body.dark-mode .nav-tabs .nav-link {
+            color: var(--text-dark);
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--primary);
+            background-color: transparent;
+            border-color: var(--primary) var(--primary) transparent;
+        }
+        
+        body.dark-mode .nav-tabs {
+            border-bottom-color: #444;
+        }
+        
+        body.dark-mode .nav-tabs .nav-link {
+            border-color: transparent;
+        }
+        
+        body.dark-mode .nav-tabs .nav-link.active {
+            color: var(--primary);
+            background-color: var(--card-dark);
+            border-color: #444 #444 var(--card-dark);
+        }
+        
+        .card-title,
+        .card-text {
+            color: inherit;
+        }
+        
+        body.dark-mode .card-title,
+        body.dark-mode .card-text {
+            color: var(--text-dark);
+        }
+        
+        small {
+            color: inherit;
+        }
+        
+        body.dark-mode small {
+            color: #aaa;
+        }
+        
+        h5 {
+            color: inherit;
+        }
+        
+        body.dark-mode h5 {
+            color: var(--text-dark);
+        }
+        
+        .navbar {
+            height: 70px;    
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .navbar .container-fluid {
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-img {
+            max-height: 300px;
+            height: auto;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo-utama {
+            max-height: 150px;
+        }
+
+        /* Welcome Page Styles */
+        #welcomePage {
+            padding-top: 0;
+        }
+
+        .welcome-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #03A6A6 0%, #028a8a 100%);
+            padding: 0;
+        }
+
+        body.dark-mode .welcome-container {
+            background: linear-gradient(135deg, #028a8a 0%, #026a6a 100%);
+        }
+
+        .welcome-header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .welcome-logo {
+            max-width: 250px;
+            height: auto;
+            margin: 0 auto 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .welcome-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            text-align: center;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .welcome-title {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .welcome-description {
+            color: rgba(255,255,255,0.95);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+
+        .welcome-features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            max-width: 800px;
+        }
+
+        .feature-item {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 20px;
             border-radius: 15px;
+            color: white;
+            min-width: 200px;
+            transition: transform 0.3s;
         }
-        
-        .search-result-item {
-            padding: 15px;
-            cursor: pointer;
-            border-bottom: 1px solid #eee;
-            transition: background-color 0.3s;
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.25);
         }
-        
-        .search-result-item:hover {
-            background-color: #f8f9fa;
+
+        .feature-item i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
         }
-        
-        body.dark-mode .search-result-item {
-            border-bottom-color: #3a3a3a;
+
+        .btn-start {
+            background-color: white;
+            color: var(--primary);
+            font-size: 1.3rem;
+            font-weight: 600;
+            padding: 15px 60px;
+            border-radius: 50px;
+            border: none;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            animation: pulse 2s infinite;
         }
-        
-        body.dark-mode .search-result-item:hover {
-            background-color: #3a3a3a;
+
+        .btn-start:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+            background-color: var(--success);
+            color: var(--secondary);
         }
-        
-        .rating-star {
-            color: #ffc107;
+
+        .welcome-footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            animation: fadeIn 1s ease-out 0.6s both;
         }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .welcome-title {
+                font-size: 2rem;
+            }
+
+            .welcome-description {
+                font-size: 1rem;
+            }
+
+            .welcome-features {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .feature-item {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* ===== MODE WELCOME: HANYA LOGO ===== */
+body.welcome-mode #navbarNav,
+body.welcome-mode .search-btn,
+body.welcome-mode .dark-mode-btn {
+    display: none !important;
+}
+
+body.welcome-mode .navbar-brand {
+    margin: 0 auto;
+}
+
+/* Ukuran logo normal (home & setelah login) */
+.logo-img {
+    max-height: 150px;
+}
+
+/* Logo lebih besar di halaman home (opsional) */
+#homePage .logo-img {
+    max-height: 150px;
+}
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand navbar-custom fixed-top">
-        <div class="container-fluid">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="showPage('homePage')">
-                        <i class="bi bi-house-fill"></i> Home
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="showPage('myBookingPage')">
-                        <i class="bi bi-calendar-check"></i> My Booking
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="showPage('profilePage')">
-                        <i class="bi bi-person-fill"></i> Profile
-                    </a>
-                </li>
-            </ul>
-            
-            <a class="navbar-brand mx-auto" href="#" onclick="showPage('homePage')">
-                <img src="logo/gambar1.jpg">
-            </a>
-            
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item me-3">
-                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#searchModal">
-                        <i class="bi bi-search"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <span class="nav-link theme-toggle" onclick="toggleTheme()">
-                        <i class="bi bi-moon-fill" id="themeIcon"></i>
-                    </span>
-                </li>
-            </ul>
-        </div>
-    </nav>
 
-    <!-- Search Modal -->
-    <div class="modal fade search-modal" id="searchModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Cari Restoran / Cafe</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <!-- Welcome Page -->
+    <div id="welcomePage" class="page active">
+        <div class="welcome-container">
+            <div class="welcome-header">
+                <img src="logo/logo2.jpg" class="welcome-logo">
+            </div>
+
+            <div class="welcome-body">
+                <h1 class="welcome-title">Selamat Datang di Reservin</h1>
+                <p class="welcome-description">
+                    Platform reservasi restoran dan cafe terpercaya di Solo. 
+                    Booking meja favoritmu dengan mudah, cepat, dan praktis. 
+                    Nikmati pengalaman kuliner tanpa antrian!
+                </p>
+
+                <div class="welcome-features">
+                    <div class="feature-item">
+                        <i class="bi bi-lightning-charge-fill"></i>
+                        <strong>Booking Cepat</strong>
+                        <p class="mb-0" style="font-size: 0.9rem;">Reservasi dalam hitungan detik</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="bi bi-shield-check"></i>
+                        <strong>Terpercaya</strong>
+                        <p class="mb-0" style="font-size: 0.9rem;">Konfirmasi real-time</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="bi bi-star-fill"></i>
+                        <strong>50+ Tempat</strong>
+                        <p class="mb-0" style="font-size: 0.9rem;">Restoran & cafe pilihan</p>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <input type="text" class="form-control mb-3" id="searchInput" placeholder="Ketik nama restoran atau cafe..." oninput="performSearch()">
-                    <div id="searchResults"></div>
+
+                <button class="btn btn-start" onclick="goToLogin()">
+                    <i class="bi bi-arrow-right-circle me-2"></i>Mulai Sekarang
+                </button>
+            </div>
+
+            <div class="welcome-footer">
+                <p class="mb-0">&copy; 2025 Reservin. All rights reserved.</p>
+                <p class="mb-0"><small>Made with <i class="bi bi-heart-fill text-danger"></i> in Solo</small></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav id="mainNavbar" class="navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid">
+
+        <!-- LOGO -->
+        <a class="navbar-brand mx-auto" href="#">
+            <img src="logo/logo1.jpg" alt="Logo" class="logo-img">
+        </a>
+
+        <!-- MENU NAVBAR -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showPage('home')">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showPage('mybooking')">My Booking</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showPage('profile')">Profile</a>
+                </li>
+            </ul>
+
+            <div class="d-flex align-items-center">
+                <button class="btn search-btn" onclick="showSearchModal()">
+                    <i class="bi bi-search"></i>
+                </button>
+                <button class="btn dark-mode-btn" onclick="toggleDarkMode()">
+                    <i class="bi bi-moon-fill"></i>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</nav>
+
+    <!-- Login Page -->
+    <div id="loginPage" class="page">
+        <div class="auth-container">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="logo-auth">
+                        <i class="bi bi-calendar-check"></i><br>Reservin
+                    </div>
+                    <h4 class="text-center mb-4">Masuk ke Akun Anda</h4>
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Ingat Saya</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mb-2">Masuk</button>
+                        <button type="button" class="btn btn-link w-100 mb-2" onclick="showForgotPassword()">Lupa Password?</button>
+                        <hr>
+                        <button type="button" class="btn btn-outline-primary w-100" onclick="showRegisterPage()">
+                            Daftar Akun Baru
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Page -->
+    <div id="registerPage" class="page">
+        <div class="auth-container">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="logo-auth">
+                        <i class="bi bi-calendar-check"></i><br>Reservin
+                    </div>
+                    <h4 class="text-center mb-4">Daftar Akun Baru</h4>
+                    <form id="registerForm">
+                        <div class="mb-3">
+                            <label class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="regName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="regEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nomor Telepon</label>
+                            <input type="tel" class="form-control" id="regPhone" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password (Min. 6 karakter)</label>
+                            <input type="password" class="form-control" id="regPassword" required minlength="6">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Konfirmasi Password</label>
+                            <input type="password" class="form-control" id="regConfirmPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mb-2">Daftar</button>
+                        <button type="button" class="btn btn-link w-100" onclick="showLoginPage()">
+                            Sudah punya akun? Masuk
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Home Page -->
-    <div class="page active" id="homePage">
+    <div id="homePage" class="page">
         <div class="container mt-4">
             <!-- Carousel Promo -->
             <div id="promoCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
@@ -291,26 +781,23 @@
                     <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="1"></button>
                     <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="2"></button>
                 </div>
-                <div class="carousel-inner rounded">
+                <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800" class="d-block w-100 carousel-promo" alt="Promo 1">
+                        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&h=400&fit=crop" class="d-block w-100" alt="Promo 1">
                         <div class="carousel-caption">
-                            <h5>Diskon 30% Semua Menu</h5>
-                            <p>Berlaku hingga 31 Desember</p>
+                            <h5>Diskon 30% untuk Member Baru!</h5>
                         </div>
                     </div>
                     <div class="carousel-item">
-                        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800" class="d-block w-100 carousel-promo" alt="Promo 2">
+                        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=400&fit=crop" class="d-block w-100" alt="Promo 2">
                         <div class="carousel-caption">
-                            <h5>Buy 1 Get 1 Free</h5>
-                            <p>Khusus member baru</p>
+                            <h5>Gratis Dessert Setiap Weekend</h5>
                         </div>
                     </div>
                     <div class="carousel-item">
-                        <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800" class="d-block w-100 carousel-promo" alt="Promo 3">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=400&fit=crop" class="d-block w-100" alt="Promo 3">
                         <div class="carousel-caption">
-                            <h5>Gratis Dessert</h5>
-                            <p>Minimum pembelian 100k</p>
+                            <h5>Happy Hour 15:00 - 17:00</h5>
                         </div>
                     </div>
                 </div>
@@ -322,27 +809,36 @@
                 </button>
             </div>
 
-            <!-- Tabs Resto/Cafe -->
-            <ul class="nav nav-tabs mb-4" id="categoryTabs" role="tablist">
+            <!-- Tabs Resto & Cafe -->
+            <ul class="nav nav-pills mb-4 justify-content-center" id="categoryTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="resto-tab" data-bs-toggle="tab" data-bs-target="#resto" type="button">
+                    <button class="nav-link active" id="all-tab" data-bs-toggle="pill" data-bs-target="#all" type="button">
+                        Semua
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="restaurant-tab" data-bs-toggle="pill" data-bs-target="#restaurant" type="button">
                         Restoran
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="cafe-tab" data-bs-toggle="tab" data-bs-target="#cafe" type="button">
+                    <button class="nav-link" id="cafe-tab" data-bs-toggle="pill" data-bs-target="#cafe" type="button">
                         Cafe
                     </button>
                 </li>
             </ul>
 
+            <!-- Rekomendasi Section -->
+            <h5 class="mb-3"><i class="bi bi-fire"></i> Populer 7 Hari Terakhir</h5>
+            
             <div class="tab-content" id="categoryTabContent">
-                <div class="tab-pane fade show active" id="resto" role="tabpanel">
-                    <h5 class="mb-3">Rekomendasi Restoran (7 Hari Terakhir)</h5>
-                    <div class="row" id="restoList"></div>
+                <div class="tab-pane fade show active" id="all" role="tabpanel">
+                    <div class="row" id="allPlaces"></div>
+                </div>
+                <div class="tab-pane fade" id="restaurant" role="tabpanel">
+                    <div class="row" id="restaurantList"></div>
                 </div>
                 <div class="tab-pane fade" id="cafe" role="tabpanel">
-                    <h5 class="mb-3">Rekomendasi Cafe (7 Hari Terakhir)</h5>
                     <div class="row" id="cafeList"></div>
                 </div>
             </div>
@@ -350,71 +846,51 @@
     </div>
 
     <!-- Detail Page -->
-    <div class="page" id="detailPage">
-        <div class="container mt-4">
-            <button class="btn btn-link text-decoration-none mb-3" onclick="showPage('homePage')">
-                <i class="bi bi-arrow-left"></i> Kembali
+    <div id="detailPage" class="page detail-page">
+        <div class="container">
+            <button class="btn btn-outline-primary back-btn" onclick="backToHome()">
+                <i class="bi bi-arrow-left">Kembali</i>
             </button>
-            <div id="detailContent"></div>
-        </div>
-    </div>
-
-    <!-- Booking Form Page -->
-    <div class="page" id="bookingFormPage">
-        <div class="container mt-4">
-            <button class="btn btn-link text-decoration-none mb-3" onclick="showPage('detailPage')">
-                <i class="bi bi-arrow-left"></i> Kembali
-            </button>
-            <h4 class="mb-4">Buat Reservasi</h4>
-            <div class="card">
+            
+            <div class="card shadow">
                 <div class="card-body">
-                    <form id="bookingForm" onsubmit="submitBooking(event)">
-                        <div class="mb-3">
-                            <label class="form-label">Nama Lengkap</label>
-                            <input type="text" class="form-control" id="bookingName" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Tanggal</label>
-                            <input type="date" class="form-control" id="bookingDate" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Waktu</label>
-                            <input type="time" class="form-control" id="bookingTime" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Jumlah Orang</label>
-                            <input type="number" class="form-control" id="bookingPeople" min="1" max="20" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Catatan (Opsional)</label>
-                            <textarea class="form-control" id="bookingNotes" rows="3"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary-custom w-100">Konfirmasi Booking</button>
-                    </form>
+                    <div id="detailCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
+                        <div class="carousel-inner" id="detailCarouselInner"></div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#detailCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#detailCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+                    </div>
+                    <div id="detailContent"></div>
+                    <button type="button" class="btn btn-primary w-100 mt-3" onclick="showBookingForm()">
+                        <i class="bi bi-calendar-check"></i> Reservasi Sekarang
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- My Booking Page -->
-    <div class="page" id="myBookingPage">
+    <div id="mybookingPage" class="page">
         <div class="container mt-4">
-            <h4 class="mb-4">My Booking</h4>
+            <h4 class="mb-4">Booking Saya</h4>
             
-            <ul class="nav nav-pills mb-4" id="bookingTabs" role="tablist">
+            <ul class="nav nav-tabs mb-4" id="bookingTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="upcoming-tab" data-bs-toggle="pill" data-bs-target="#upcoming" type="button">
-                        Upcoming
+                    <button class="nav-link active" id="upcoming-tab" data-bs-toggle="tab" data-bs-target="#upcoming" type="button">
+                        Akan Datang
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="completed-tab" data-bs-toggle="pill" data-bs-target="#completed" type="button">
-                        Completed
+                    <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button">
+                        Selesai
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="cancelled-tab" data-bs-toggle="pill" data-bs-target="#cancelled" type="button">
-                        Cancelled
+                    <button class="nav-link" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled" type="button">
+                        Dibatalkan
                     </button>
                 </li>
             </ul>
@@ -433,48 +909,117 @@
         </div>
     </div>
 
-    <!-- Booking Detail Page -->
-    <div class="page" id="bookingDetailPage">
-        <div class="container mt-4">
-            <button class="btn btn-link text-decoration-none mb-3" onclick="showPage('myBookingPage')">
-                <i class="bi bi-arrow-left"></i> Kembali
-            </button>
-            <div id="bookingDetailContent"></div>
-        </div>
-    </div>
-
     <!-- Profile Page -->
-    <div class="page" id="profilePage">
+    <div id="profilePage" class="page">
         <div class="container mt-4">
-            <h4 class="mb-4">Profil Saya</h4>
-            
-            <div class="card mb-4">
+            <div class="card shadow">
                 <div class="card-body text-center">
                     <img src="https://ui-avatars.com/api/?name=User&size=120&background=03A6A6&color=fff" class="profile-img mb-3" id="profileImage" alt="Profile">
-                    <h5 id="profileName">Nama Pengguna</h5>
-                    <p class="text-muted mb-2" id="profileEmail">email@example.com</p>
-                    <p class="text-muted" id="profilePhone">+62 812-3456-7890</p>
-                    <button class="btn btn-primary-custom" onclick="showEditProfile()">
+                    <h4 id="profileName">-</h4>
+                    <p class="text-muted" id="profileEmail">-</p>
+                    <p class="text-muted" id="profilePhone">-</p>
+                    <button class="btn btn-primary mb-2" onclick="showEditProfile()">
                         <i class="bi bi-pencil"></i> Edit Profile
                     </button>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="list-group list-group-flush">
-                    <a href="#" class="list-group-item list-group-item-action" onclick="showChangePassword()">
-                        <i class="bi bi-key me-2"></i> Ubah Password
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action" onclick="showNotificationSettings()">
-                        <i class="bi bi-bell me-2"></i> Pengaturan Notifikasi
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action" onclick="showLanguageSettings()">
-                        <i class="bi bi-translate me-2"></i> Bahasa
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action text-danger" onclick="logout()">
-                        <i class="bi bi-box-arrow-right me-2"></i> Logout
-                    </a>
+            <div class="card shadow mt-3">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Pengaturan</h5>
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <i class="bi bi-bell"></i> Notifikasi
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="notifSwitch" checked>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <i class="bi bi-translate"></i> Bahasa
+                        </div>
+                        <select class="form-select w-auto" id="languageSelect">
+                            <option value="id">Indonesia</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                    
+                    <hr>
+                    
+                    <button class="btn btn-danger w-100" onclick="logout()">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="modal fade" id="searchModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cari Restoran / Cafe</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control mb-3" id="searchInput" placeholder="Ketik nama restoran atau cafe...">
+                    <div id="searchResults"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Form Modal -->
+    <div class="modal fade" id="bookingModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Form Reservasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="bookingForm">
+                        <input type="hidden" id="bookingPlaceId">
+                        <div class="mb-3">
+                            <label class="form-label">Nama Restoran/Cafe</label>
+                            <input type="text" class="form-control" id="bookingPlaceName" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tanggal</label>
+                            <input type="date" class="form-control" id="bookingDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Waktu</label>
+                            <input type="time" class="form-control" id="bookingTime" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Jumlah Orang</label>
+                            <input type="number" class="form-control" id="bookingPeople" min="1" max="20" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Catatan Khusus (Opsional)</label>
+                            <textarea class="form-control" id="bookingNotes" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Konfirmasi Reservasi</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Detail Modal -->
+    <div class="modal fade" id="bookingDetailModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Booking</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="bookingDetailContent"></div>
             </div>
         </div>
     </div>
@@ -488,9 +1033,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editProfileForm" onsubmit="saveProfile(event)">
+                    <form id="editProfileForm">
                         <div class="mb-3">
-                            <label class="form-label">Nama</label>
+                            <label class="form-label">Nama Lengkap</label>
                             <input type="text" class="form-control" id="editName" required>
                         </div>
                         <div class="mb-3">
@@ -501,142 +1046,324 @@
                             <label class="form-label">Nomor Telepon</label>
                             <input type="tel" class="form-control" id="editPhone" required>
                         </div>
-                        <button type="submit" class="btn btn-primary-custom w-100">Simpan</button>
+                        <button type="submit" class="btn btn-primary w-100">Simpan Perubahan</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Forgot Password Modal -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Lupa Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="forgotPasswordForm">
+                        <div class="mb-3">
+                            <label class="form-label">Email Terdaftar</label>
+                            <input type="email" class="form-control" id="forgotEmail" required>
+                            <small class="text-muted">Kami akan mengirimkan link reset password ke email Anda</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Kirim Link Reset</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
-        // Data Restoran (25 Restoran)
-        const restaurants = [
-            { id: 1, name: "Omah Sinten Heritage", category: "restaurant", image: "logo/ademayem.JPG", rating: 4.8, location: "Jl. Adisucipto No. 47, Solo", phone: "0271-714444", description: "Restoran dengan konsep heritage yang menyajikan masakan tradisional dan modern dalam suasana klasik nan elegan.", visits: 156 },
-            { id: 2, name: "Soga Resto", category: "restaurant", image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600", rating: 4.7, location: "Jl. Slamet Riyadi No. 261, Solo", phone: "0271-646356", description: "Restoran mewah dengan menu Indonesia dan Western, dilengkapi live music untuk pengalaman bersantap yang berkesan.", visits: 142 },
-            { id: 3, name: "Warunk UpNormal", category: "restaurant", image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600", rating: 4.6, location: "Solo Paragon Mall Lt. 2", phone: "0271-123456", description: "Konsep warung modern dengan menu Indomie kreatif dan berbagai minuman segar yang unik.", visits: 134 },
-            { id: 4, name: "Selat Mbak Lies", category: "restaurant", image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600", rating: 4.5, location: "Jl. S. Parman No. 10, Solo", phone: "0271-654321", description: "Restoran legendaris yang menyajikan selat Solo khas dengan resep turun temurun.", visits: 128 },
-            { id: 5, name: "Timlo Sastro", category: "restaurant", image: "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600", rating: 4.8, location: "Jl. Kapten Mulyadi No. 69, Solo", phone: "0271-632989", description: "Tempat terbaik untuk menikmati timlo Solo yang otentik dengan cita rasa yang kaya.", visits: 145 },
-            { id: 6, name: "Bengawan Solo Restaurant", category: "restaurant", image: "https://images.unsplash.com/photo-1552566626-52f8b828add9?w=600", rating: 4.6, location: "Jl. Ronggowarsito No. 127, Solo", phone: "0271-638555", description: "Restoran dengan pemandangan sungai Bengawan Solo, menu tradisional dan seafood.", visits: 118 },
-            { id: 7, name: "Omah Semar", category: "restaurant", image: "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=600", rating: 4.4, location: "Jl. Veteran No. 245, Solo", phone: "0271-712345", description: "Restoran berkonsep rumah tradisional dengan menu masakan Jawa yang lezat.", visits: 112 },
-            { id: 8, name: "Adem Ayem", category: "restaurant", image: "logo/ademayem.JPG", rating: 4.7, location: "Jl. Letjen S. Parman No. 54, Solo", phone: "0271-654789", description: "Tempat makan dengan suasana tenang dan menu khas Solo yang menggugah selera.", visits: 125 },
-            { id: 9, name: "Boga Catering", category: "restaurant", image: "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?w=600", rating: 4.5, location: "Jl. Dr. Radjiman No. 201, Solo", phone: "0271-632000", description: "Restoran dengan berbagai pilihan menu buffet dan prasmanan untuk acara spesial.", visits: 108 },
-            { id: 10, name: "Wedangan Pendopo", category: "restaurant", image: "https://images.unsplash.com/photo-1592861956120-e524fc739696?w=600", rating: 4.6, location: "Jl. Diponegoro No. 56, Solo", phone: "0271-645111", description: "Restoran dengan konsep pendopo Jawa, menu tradisional dan minuman wedang.", visits: 115 },
-            { id: 11, name: "Kuliner Bahari", category: "restaurant", image: "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600", rating: 4.4, location: "Jl. Monginsidi No. 78, Solo", phone: "0271-623456", description: "Spesialis seafood dengan cita rasa laut yang segar dan bumbu rempah khas.", visits: 102 },
-            { id: 12, name: "Gudeg Yu Djum", category: "restaurant", image: "https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=600", rating: 4.9, location: "Jl. Teuku Umar No. 88, Solo", phone: "0271-634567", description: "Gudeg legendaris dengan rasa manis gurih yang sempurna, wajib dicoba.", visits: 167 },
-            { id: 13, name: "Roemah Keboen", category: "restaurant", image: "https://images.unsplash.com/photo-1552566626-52f8b828add9?w=600", rating: 4.5, location: "Jl. Gatot Subroto No. 23, Solo", phone: "0271-712890", description: "Konsep garden restaurant dengan suasana alami dan menu fusion Indonesia-Barat.", visits: 110 },
-            { id: 14, name: "Depot Es Bu Nanik", category: "restaurant", image: "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600", rating: 4.3, location: "Jl. Yos Sudarso No. 45, Solo", phone: "0271-698765", description: "Terkenal dengan es campur dan aneka es buah yang menyegarkan.", visits: 98 },
-            { id: 15, name: "Sate Kere Yu Rebi", category: "restaurant", image: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600", rating: 4.6, location: "Jl. Kol. Sutarto No. 12, Solo", phone: "0271-687654", description: "Sate kere khas Solo dengan bumbu kacang yang gurih dan dagingnya empuk.", visits: 121 },
-            { id: 16, name: "Nasi Liwet Wongso Lemu", category: "restaurant", image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=600", rating: 4.8, location: "Pasar Gede, Solo", phone: "0271-632111", description: "Nasi liwet Solo otentik dengan lauk lengkap dan sambal yang pedas mantap.", visits: 149 },
-            { id: 17, name: "Ayam Goreng Mbah Karto", category: "restaurant", image: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=600", rating: 4.4, location: "Jl. Ahmad Dahlan No. 67, Solo", phone: "0271-645888", description: "Ayam goreng kremes dengan bumbu meresap hingga ke dalam, renyah di luar.", visits: 106 },
-            { id: 18, name: "Bebek Goreng H. Slamet", category: "restaurant", image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=600", rating: 4.7, location: "Jl. Brigjend Katamso No. 34, Solo", phone: "0271-654333", description: "Bebek goreng dan bakar dengan sambal yang pedas nikmat, daging empuk.", visits: 132 },
-            { id: 19, name: "Pecel Madiun Putra", category: "restaurant", image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600", rating: 4.3, location: "Jl. Dr. Wahidin No. 89, Solo", phone: "0271-623777", description: "Pecel dengan sambal kacang kental dan sayuran segar yang bergizi.", visits: 95 },
-            { id: 20, name: "Serabi Notosuman", category: "restaurant", image: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=600", rating: 4.7, location: "Jl. Moh. Yamin No. 28, Solo", phone: "0271-632444", description: "Serabi Solo legendaris dengan berbagai topping manis dan gurih.", visits: 138 },
-            { id: 21, name: "Bestik Solo Pak Parjo", category: "restaurant", image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600", rating: 4.5, location: "Jl. Teuku Umar No. 15, Solo", phone: "0271-657890", description: "Bestik khas Solo dengan daging sapi empuk dan saus yang khas.", visits: 114 },
-            { id: 22, name: "Soto Gading Mbak Lin", category: "restaurant", image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=600", rating: 4.6, location: "Jl. Brigjen Slamet Riyadi, Solo", phone: "0271-643210", description: "Soto ayam dengan kuah bening yang gurih dan daging ayam yang lembut.", visits: 127 },
-            { id: 23, name: "Tengkleng Pak Manto", category: "restaurant", image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600", rating: 4.4, location: "Jl. Veteran No. 156, Solo", phone: "0271-689123", description: "Tengkleng kambing dengan kuah santan yang gurih dan bumbu meresap.", visits: 104 },
-            { id: 24, name: "Tahu Kupat Pak Bambang", category: "restaurant", image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600", rating: 4.3, location: "Jl. Jend. Sudirman No. 92, Solo", phone: "0271-621555", description: "Tahu kupat dengan kuah santan kental dan lontong yang lembut.", visits: 97 },
-            { id: 25, name: "Bakso Pak Kumis", category: "restaurant", image: "https://images.unsplash.com/photo-1575483344199-d6a2c19f1f1d?w=600", rating: 4.5, location: "Jl. Urip Sumoharjo No. 101, Solo", phone: "0271-634999", description: "Bakso jumbo dengan kuah kaldu sapi yang kaya rasa dan isian melimpah.", visits: 119 }
+        // Data Restoran & Cafe dari Solo
+        const places = [
+            // Cafe (25)
+            {id: 1, name: "Kelana", type: "cafe", description: "Cafe cozy dengan suasana hangat dan kopi berkualitas", address: "Jl. Veteran No. 12, Solo", phone: "0271-1234567", images: ["https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&h=800&fit=crop"]},
+            {id: 2, name: "Communion", type: "cafe", description: "Tempat berkumpul dengan coffee specialty dan makanan enak", address: "Jl. Slamet Riyadi No. 123, Solo", phone: "0271-2345678", images: ["https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=800&fit=crop"]},
+            {id: 3, name: "Oxyco Coffee Shop", type: "cafe", description: "Coffee shop modern dengan interior minimalis", address: "Jl. Dr. Radjiman No. 45, Solo", phone: "0271-3456789", images: ["https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&h=800&fit=crop"]},
+            {id: 4, name: "Dante", type: "cafe", description: "Cafe instagramable dengan menu beragam", address: "Jl. Veteran No. 78, Solo", phone: "0271-4567890", images: ["https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=800&fit=crop"]},
+            {id: 5, name: "Kalagyan", type: "cafe", description: "Cafe dengan konsep unik dan menu kreatif", address: "Jl. Urip Sumoharjo No. 90, Solo", phone: "0271-5678901", images: ["https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400&h=800&fit=crop"]},
+            {id: 6, name: "Seperdua", type: "cafe", description: "Coffee and eatery dengan suasana nyaman", address: "Jl. Brigjen Sudiarto No. 34, Solo", phone: "0271-6789012", images: ["https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=400&h=800&fit=crop"]},
+            {id: 7, name: "Kavelokka", type: "cafe", description: "Cafe aesthetic dengan menu fusion", address: "Jl. Slamet Riyadi No. 56, Solo", phone: "0271-7890123", images: ["https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=400&h=800&fit=crop"]},
+            {id: 8, name: "Slari Coffee", type: "cafe", description: "Specialty coffee dengan biji kopi pilihan", address: "Jl. Monginsidi No. 67, Solo", phone: "0271-8901234", images: ["https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=400&h=800&fit=crop"]},
+            {id: 9, name: "Kopi Nako", type: "cafe", description: "Kopi lokal dengan cita rasa khas Solo", address: "Jl. Dr. Moewardi No. 89, Solo", phone: "0271-9012345", images: ["https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=400&h=800&fit=crop"]},
+            {id: 10, name: "Kagumi", type: "cafe", description: "Cafe romantis dengan pemandangan indah", address: "Jl. Ahmad Yani No. 101, Solo", phone: "0271-0123456", images: ["https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=400&h=800&fit=crop"]},
+            {id: 11, name: "Kawan Tuli", type: "cafe", description: "Cafe inklusif dengan pelayanan ramah", address: "Jl. Veteran No. 88, Solo", phone: "0271-1122334", images: ["https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&h=800&fit=crop"]},
+            {id: 12, name: "Sawahita", type: "cafe", description: "Cafe dengan konsep sawah dan natural", address: "Jl. Slamet Riyadi No. 99, Solo", phone: "0271-2233445", images: ["https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=800&fit=crop"]},
+            {id: 13, name: "Cold 'N Brew", type: "cafe", description: "Spesialis cold brew dengan rasa smooth", address: "Jl. Honggowongso No. 111, Solo", phone: "0271-3344556", images: ["https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=400&h=800&fit=crop"]},
+            {id: 14, name: "Kopi Parang", type: "cafe", description: "Kopi dengan karakter kuat dan berani", address: "Jl. Juanda No. 33, Solo", phone: "0271-4455667", images: ["https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=400&h=800&fit=crop"]},
+            {id: 15, name: "Tetra", type: "cafe", description: "Cafe modern dengan teknologi ordering canggih", address: "Jl. MT Haryono No. 55, Solo", phone: "0271-5566778", images: ["https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=400&h=800&fit=crop"]},
+            {id: 16, name: "Anak Panah", type: "cafe", description: "Cafe unik dengan tema panahan", address: "Jl. Brigjend Katamso No. 77, Solo", phone: "0271-6677889", images: ["https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&h=800&fit=crop"]},
+            {id: 17, name: "The Hidden Swargi Coffee", type: "cafe", description: "Hidden gem dengan kopi premium", address: "Jl. Letjen Suprapto No. 22, Solo", phone: "0271-7788990", images: ["https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=800&fit=crop"]},
+            {id: 18, name: "Catniphora", type: "cafe", description: "Cat cafe dengan kucing lucu dan menggemaskan", address: "Jl. Ki Hajar Dewantara No. 44, Solo", phone: "0271-8899001", images: ["https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&h=800&fit=crop"]},
+            {id: 19, name: "Antara Kata", type: "cafe", description: "Book cafe dengan koleksi buku menarik", address: "Jl. Adi Sumarmo No. 66, Solo", phone: "0271-9900112", images: ["https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=800&fit=crop"]},
+            {id: 20, name: "18 Grounds Coffee", type: "cafe", description: "Coffee shop dengan berbagai pilihan bean", address: "Jl. Sudirman No. 88, Solo", phone: "0271-0011223", images: ["https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400&h=800&fit=crop"]},
+            {id: 21, name: "Odds Coffee Company", type: "cafe", description: "Specialty coffee dengan brewing method lengkap", address: "Jl. Veteran No. 111, Solo", phone: "0271-1122334", images: ["https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=400&h=800&fit=crop"]},
+            {id: 22, name: "Gettsee", type: "cafe", description: "Cafe hangout dengan menu western", address: "Jl. Slamet Riyadi No. 133, Solo", phone: "0271-2233445", images: ["https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=400&h=800&fit=crop"]},
+            {id: 23, name: "25 Coffee", type: "cafe", description: "Coffee bar dengan atmosphere modern", address: "Jl. Dr. Radjiman No. 25, Solo", phone: "0271-3344556", images: ["https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=400&h=800&fit=crop"]},
+            {id: 24, name: "Bahagia Bersama", type: "cafe", description: "Cafe family friendly dengan playground", address: "Jl. Gatot Subroto No. 44, Solo", phone: "0271-4455667", images: ["https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=400&h=800&fit=crop"]},
+            {id: 25, name: "Kelana 2nd", type: "cafe", description: "Cabang kedua dengan konsep lebih luas", address: "Jl. Urip Sumoharjo No. 55, Solo", phone: "0271-5566778", images: ["https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=400&h=800&fit=crop"]},
+            
+            // Restoran (24)
+            {id: 26, name: "Xin Xin Resto", type: "restaurant", description: "Restoran Chinese food halal dengan cita rasa autentik", address: "Jl. Diponegoro No. 42, Solo", phone: "0271-1234501", images: ["https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=800&fit=crop"]},
+            {id: 27, name: "Orient Resto", type: "restaurant", description: "Masakan oriental dengan bumbu khas", address: "Jl. Slamet Riyadi No. 88, Solo", phone: "0271-2345602", images: ["https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=800&fit=crop"]},
+            {id: 28, name: "Kampung Kecil Solo", type: "restaurant", description: "Restoran konsep kampung dengan menu tradisional", address: "Jl. Yos Sudarso No. 15, Solo", phone: "0271-3456703", images: ["https://images.unsplash.com/photo-1529042410759-befb1204b468?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1551218372-8e2e0e9f5b65?w=400&h=800&fit=crop"]},
+            {id: 29, name: "Omah Sinten Heritage Resto", type: "restaurant", description: "Restoran heritage Jawa dengan suasana klasik", address: "Jl. Veteran No. 25, Solo", phone: "0271-4567804", images: ["https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=800&fit=crop"]},
+            {id: 30, name: "Ayam Malioboro", type: "restaurant", description: "Spesialis ayam dengan bumbu istimewa", address: "Jl. Dr. Radjiman No. 99, Solo", phone: "0271-5678905", images: ["https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=800&fit=crop"]},
+            {id: 31, name: "Botania", type: "restaurant", description: "Restoran dengan konsep taman botanis", address: "Jl. Ahmad Yani No. 77, Solo", phone: "0271-6789006", images: ["https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&h=800&fit=crop"]},
+            {id: 32, name: "Djampi Jawi Solo", type: "restaurant", description: "Masakan Jawa dengan resep turun temurun", address: "Jl. Adisucipto No. 33, Solo", phone: "0271-7890107", images: ["https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1562967916-eb82221dfb92?w=400&h=800&fit=crop"]},
+            {id: 33, name: "Double Decker", type: "restaurant", description: "Restoran bertingkat dengan menu beragam", address: "Jl. Monginsidi No. 55, Solo", phone: "0271-8901208", images: ["https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?w=400&h=800&fit=crop"]},
+            {id: 34, name: "Adem Ayem Resto Slamet Riyadi", type: "restaurant", description: "Restoran dengan suasana adem dan tenang", address: "Jl. Sudirman No. 111, Solo", phone: "0271-9012309", images: ["https://images.unsplash.com/photo-1559737558-2f5a35f4523d?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?w=400&h=800&fit=crop"]},
+            {id: 35, name: "Armey Kitchen", type: "restaurant", description: "Kitchen modern dengan menu fusion", address: "Jl. Gajah Mada No. 22, Solo", phone: "0271-0123410", images: ["https://images.unsplash.com/photo-1588347818036-8e0c4b8c273c?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=400&h=800&fit=crop"]},
+            {id: 36, name: "Ayam Goreng Kartini", type: "restaurant", description: "Ayam goreng legendaris dengan bumbu rahasia", address: "Jl. Honggowongso No. 44, Solo", phone: "0271-1122311", images: ["https://images.unsplash.com/photo-1576867757603-05b134ebc379?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=800&fit=crop"]},
+            {id: 37, name: "Balekambang Resto", type: "restaurant", description: "Restoran pinggir kolam dengan view indah", address: "Jl. Urip Sumoharjo No. 66, Solo", phone: "0271-2233412", images: ["https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1588347818036-8e0c4b8c273c?w=400&h=800&fit=crop"]},
+            {id: 38, name: "Canting Londo Kitchen", type: "restaurant", description: "Fusion food Indonesia dan Western", address: "Jl. Dr. Moewardi No. 88, Solo", phone: "0271-3344513", images: ["https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=800&fit=crop"]},
+            {id: 39, name: "Kusuma Sari Restaurant", type: "restaurant", description: "Restoran keluarga dengan menu komplit", address: "Jl. Ki Hajar Dewantara No. 99, Solo", phone: "0271-4455614", images: ["https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=800&fit=crop"]},
+            {id: 40, name: "Le Verre Resto dan Lounge", type: "restaurant", description: "Fine dining dengan suasana elegan", address: "Jl. Brigjen Sudiarto No. 111, Solo", phone: "0271-5566715", images: ["https://images.unsplash.com/photo-1529042410759-befb1204b468?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1551218372-8e2e0e9f5b65?w=400&h=800&fit=crop"]},
+            {id: 41, name: "Mang Engking Solo", type: "restaurant", description: "Restoran Sunda dengan ikan bakar segar", address: "Jl. Adi Sumarmo No. 33, Solo", phone: "0271-6677816", images: ["https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=800&fit=crop"]},
+            {id: 42, name: "Mangano", type: "restaurant", description: "Restoran Italia dengan pasta dan pizza", address: "Jl. Gatot Subroto No. 55, Solo", phone: "0271-7788917", images: ["https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=800&fit=crop"]},
+            {id: 43, name: "Pracima Tuin Pura Mangkunegaran", type: "restaurant", description: "Restoran di area keraton dengan menu royal", address: "Pura Mangkunegaran, Solo", phone: "0271-8899018", images: ["https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&h=800&fit=crop"]},
+            {id: 44, name: "Ramayana Selat Solo Tenda Biru", type: "restaurant", description: "Selat solo legendaris dengan tenda biru ikonik", address: "Jl. Jend Sudirman No. 22, Solo", phone: "0271-9900119", images: ["https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1562967916-eb82221dfb92?w=400&h=800&fit=crop"]},
+            {id: 45, name: "Selera Jawa Sunda", type: "restaurant", description: "Perpaduan masakan Jawa dan Sunda", address: "Jl. Juanda No. 44, Solo", phone: "0271-0011220", images: ["https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?w=400&h=800&fit=crop"]},
+            {id: 46, name: "Solo's Bistro", type: "restaurant", description: "Bistro modern dengan menu internasional", address: "Jl. Brigjend Katamso No. 66, Solo", phone: "0271-1122321", images: ["https://images.unsplash.com/photo-1559737558-2f5a35f4523d?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?w=400&h=800&fit=crop"]},
+            {id: 47, name: "The Soga Eatery", type: "restaurant", description: "Eatery dengan konsep instagramable", address: "Jl. Letjen Suprapto No. 88, Solo", phone: "0271-2233422", images: ["https://images.unsplash.com/photo-1588347818036-8e0c4b8c273c?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=400&h=800&fit=crop"]},
+            {id: 48, name: "Vien's", type: "restaurant", description: "Restoran Vietnam dengan pho autentik", address: "Jl. Raya Solo-Sragen No. 99, Solo", phone: "0271-3344523", images: ["https://images.unsplash.com/photo-1576867757603-05b134ebc379?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=800&fit=crop"]},
+            {id: 49, name: "Yassalam Resto Solo", type: "restaurant", description: "Restoran Middle East dengan kebab dan shawarma", address: "Jl. Veteran No. 33, Solo", phone: "0271-4455624", images: ["https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&h=800&fit=crop", "https://images.unsplash.com/photo-1588347818036-8e0c4b8c273c?w=400&h=800&fit=crop"]},
         ];
 
-       // Data Cafe (25 Cafe)
-const cafes = [
-    { id: 26, name: "Goela Klapa", category: "cafe", image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600", rating: 4.6, location: "Jl. Yosodipuro No. 111, Solo", phone: "0271-712333", description: "Cafe vintage dengan interior klasik, kopi berkualitas dan dessert yang menggoda.", visits: 141 },
-    { id: 27, name: "Lokali Coffee", category: "cafe", image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600", rating: 4.7, location: "Jl. Ir. Sutami No. 38, Solo", phone: "0271-645222", description: "Specialty coffee dengan berbagai metode brewing dan menu breakfast all day.", visits: 153 },
-    { id: 28, name: "Kopi Klotok", category: "cafe", image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=600", rating: 4.5, location: "Jl. Gatot Subroto No. 47, Solo", phone: "0271-632888", description: "Kopi tradisional disajikan dengan cara unik menggunakan kompor minyak tanah.", visits: 129 },
-    { id: 29, name: "Warkop Tiga Tjeret", category: "cafe", image: "https://images.unsplash.com/photo-1559496417-e7f25c36d20a?w=600", rating: 4.4, location: "Jl. Dr. Radjiman No. 88, Solo", phone: "0271-623999", description: "Warkop dengan konsep modern, kopi robusta dan arabika pilihan.", visits: 117 },
-    { id: 30, name: "Mino Coffee", category: "cafe", image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600", rating: 4.6, location: "Jl. Adi Sucipto No. 156, Solo", phone: "0271-654777", description: "Cafe minimalis dengan menu kopi manual brew dan light snacks.", visits: 136 },
-    { id: 31, name: "Ombe Kofie", category: "cafe", image: "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600", rating: 4.7, location: "Jl. Slamet Riyadi No. 345, Solo", phone: "0271-643555", description: "Roastery cafe dengan beans berkualitas tinggi dan barista profesional.", visits: 148 },
-    { id: 32, name: "Northsider Coffee", category: "cafe", image: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=600", rating: 4.5, location: "Jl. Veteran No. 89, Solo", phone: "0271-632111", description: "Industrial style cafe dengan menu kopi signature dan pasta yang lezat.", visits: 125 },
-    { id: 33, name: "Coffee Toffee", category: "cafe", image: "https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=600", rating: 4.4, location: "Solo Paragon Mall Lt. 1", phone: "0271-621333", description: "Cafe chain dengan menu lengkap dari kopi hingga rice bowl.", visits: 112 },
-    { id: 34, name: "Excelso", category: "cafe", image: "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=600", rating: 4.5, location: "Solo Grand Mall Lt. 2", phone: "0271-654222", description: "Premium coffee shop dengan kopi berkualitas dan cake yang enak.", visits: 120 },
-    { id: 35, name: "Anomali Coffee", category: "cafe", image: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=600", rating: 4.6, location: "Jl. Monginsidi No. 45, Solo", phone: "0271-689444", description: "Kopi Indonesia terbaik dari berbagai daerah dengan cita rasa autentik.", visits: 133 },
-    { id: 36, name: "Ruang Seduh", category: "cafe", image: "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=600", rating: 4.7, location: "Jl. Dr. Wahidin No. 67, Solo", phone: "0271-645888", description: "Cozy cafe dengan menu coffee signature dan homemade cake.", visits: 144 },
-    { id: 37, name: "Kopi Nako", category: "cafe", image: "https://images.unsplash.com/photo-1493857671505-72967e2e2760?w=600", rating: 4.4, location: "Jl. Yos Sudarso No. 123, Solo", phone: "0271-632666", description: "Cafe dengan konsep Nusantara, kopi lokal dan snack tradisional.", visits: 108 },
-    { id: 38, name: "Kopi Praja", category: "cafe", image: "https://images.unsplash.com/photo-1506619216599-9d16d0903dfd?w=600", rating: 4.5, location: "Jl. Brigjend Katamso No. 78, Solo", phone: "0271-698777", description: "Heritage cafe dengan interior klasik dan menu kopi tubruk khas.", visits: 122 },
-    { id: 39, name: "Kedai Kopi Kulo", category: "cafe", image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600", rating: 4.6, location: "Jl. Ahmad Dahlan No. 234, Solo", phone: "0271-623888", description: "Kopi susu kekinian dengan berbagai varian rasa yang unik.", visits: 139 },
-    { id: 40, name: "Jiwa Toast", category: "cafe", image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600", rating: 4.5, location: "Jl. Kapten Mulyadi No. 56, Solo", phone: "0271-654999", description: "Cafe dengan menu toast dan kopi yang cocok untuk breakfast.", visits: 116 },
-    { id: 41, name: "Kopi Janji Jiwa", category: "cafe", image: "https://images.unsplash.com/photo-1514066558159-fc8c737ef259?w=600", rating: 4.4, location: "Jl. Letjen S. Parman No. 90, Solo", phone: "0271-643222", description: "Affordable coffee shop dengan menu andalan kopi susu mantap jiwa.", visits: 111 },
-    { id: 42, name: "Fore Coffee", category: "cafe", image: "https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151?w=600", rating: 4.5, location: "Jl. Diponegoro No. 123, Solo", phone: "0271-689555", description: "Tech-enabled coffee shop dengan mobile order dan quality coffee.", visits: 128 },
-    { id: 43, name: "Ngopi Doeloe", category: "cafe", image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=600", rating: 4.3, location: "Jl. Teuku Umar No. 45, Solo", phone: "0271-621777", description: "Cafe tempo doeloe dengan suasana nostalgia dan kopi seduhan klasik.", visits: 102 },
-    { id: 44, name: "Luwak Coffee", category: "cafe", image: "https://images.unsplash.com/photo-1498804103079-a6351b050096?w=600", rating: 4.6, location: "Jl. Jend. Sudirman No. 167, Solo", phone: "0271-654111", description: "Spesialis kopi luwak dengan kualitas premium dan cita rasa istimewa.", visits: 135 },
-    { id: 45, name: "Tanamera Coffee", category: "cafe", image: "https://images.unsplash.com/photo-1472691681358-fdf00a4bfcfe?w=600", rating: 4.7, location: "Jl. Ronggowarsito No. 234, Solo", phone: "0271-632555", description: "Coffee roaster dengan beans pilihan dan manual brewing expertise.", visits: 147 },
-    { id: 46, name: "Kedai Tjikini", category: "cafe", image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600", rating: 4.4, location: "Jl. Kolonel Sutarto No. 89, Solo", phone: "0271-645666", description: "Cafe dengan menu kopi dan makanan fusion yang instagramable.", visits: 113 },
-    { id: 47, name: "Sejiwa Coffee", category: "cafe", image: "https://images.unsplash.com/photo-1559496417-e7f25c36d20a?w=600", rating: 4.5, location: "Jl. Gatot Subroto No. 156, Solo", phone: "0271-698333", description: "Spacious cafe dengan berbagai area untuk meeting atau gathering.", visits: 124 },
-    { id: 48, name: "Kopi Soe", category: "cafe", image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600", rating: 4.6, location: "Jl. Ir. Sutami No. 178, Solo", phone: "0271-623444", description: "Premium coffee dengan signature drink Kopi Susu Tetangga yang hits.", visits: 142 },
-    { id: 49, name: "Urban Coffee", category: "cafe", image: "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600", rating: 4.5, location: "Jl. Brigjend Slamet Riyadi No. 456, Solo", phone: "0271-654888", description: "Modern cafe dengan interior urban dan menu western food.", visits: 118 },
-    { id: 50, name: "Kedai Kopi Espresso", category: "cafe", image: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=600", rating: 4.7, location: "Jl. Dr. Radjiman No. 345, Solo", phone: "0271-689222", description: "Specialty cafe dengan fokus pada espresso-based drinks dan latte art.", visits: 151 },
-];
+        // Navigation to Login from Welcome Page
+        function goToLogin() {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('loginPage').classList.add('active');
+        }
 
-        const allPlaces = [...restaurants, ...cafes];
-        let currentPlace = null;
-        let userProfile = JSON.parse(localStorage.getItem('userProfile')) || {
-            name: 'Nama Pengguna',
-            email: 'email@example.com',
-            phone: '+62 812-3456-7890'
-        };
+        // Authentication Functions
+        function hashPassword(password) {
+            return btoa(password);
+        }
 
-        // Initialize
-        window.addEventListener('load', () => {
-            loadPlaces();
-            loadBookings();
-            loadProfile();
-            setMinDate();
-            
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.body.classList.add('dark-mode');
-                document.getElementById('themeIcon').className = 'bi bi-sun-fill';
+        function register(e) {
+            e.preventDefault();
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const phone = document.getElementById('regPhone').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Password tidak cocok!');
+                return;
             }
-        });
 
-        // Theme Toggle
-        function toggleTheme() {
-            const body = document.body;
-            const icon = document.getElementById('themeIcon');
+            if (password.length < 6) {
+                alert('Password minimal 6 karakter!');
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem('users') || '[]');
             
-            if (body.classList.contains('dark-mode')) {
-                body.classList.remove('dark-mode');
-                icon.className = 'bi bi-moon-fill';
-                localStorage.setItem('theme', 'light');
+            if (users.find(u => u.email === email)) {
+                alert('Email sudah terdaftar!');
+                return;
+            }
+
+            users.push({
+                name,
+                email,
+                phone,
+                password: hashPassword(password),
+                createdAt: new Date().toISOString()
+            });
+
+            localStorage.setItem('users', JSON.stringify(users));
+            alert('Registrasi berhasil! Silakan login.');
+            showLoginPage();
+        }
+
+        function login(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.email === email && u.password === hashPassword(password));
+
+            if (!user) {
+                alert('Email atau password salah!');
+                return;
+            }
+
+            const session = {
+                email: user.email,
+                name: user.name,
+                phone: user.phone,
+                loginTime: new Date().toISOString(),
+                rememberMe: rememberMe
+            };
+
+            localStorage.setItem('session', JSON.stringify(session));
+            loadUserData();
+            showPage('home');
+        }
+
+        function logout() {
+            if (confirm('Yakin ingin logout?')) {
+                localStorage.removeItem('session');
+                showWelcomePage();
+            }
+        }
+
+        function showWelcomePage() {
+    document.body.classList.add('welcome-mode');
+    document.getElementById('mainNavbar').classList.remove('d-none');
+
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('welcomePage').classList.add('active');
+}
+        
+        function checkSession() {
+            const session = JSON.parse(localStorage.getItem('session') || 'null');
+            if (session && session.rememberMe) {
+                loadUserData();
+                showPage('home');
             } else {
-                body.classList.add('dark-mode');
-                icon.className = 'bi bi-sun-fill';
-                localStorage.setItem('theme', 'dark');
+                showWelcomePage();
             }
         }
 
-        // Load Places
-        function loadPlaces() {
-            // Sort by visits
-            const sortedRestaurants = restaurants.sort((a, b) => b.visits - a.visits);
-            const sortedCafes = cafes.sort((a, b) => b.visits - a.visits);
-            
-            // Load restaurants
-            const restoList = document.getElementById('restoList');
-            restoList.innerHTML = sortedRestaurants.map(place => createPlaceCard(place)).join('');
-            
-            // Load cafes
-            const cafeList = document.getElementById('cafeList');
-            cafeList.innerHTML = sortedCafes.map(place => createPlaceCard(place)).join('');
+        function loadUserData() {
+            const session = JSON.parse(localStorage.getItem('session') || 'null');
+            if (session) {
+                document.getElementById('profileName').textContent = session.name;
+                document.getElementById('profileEmail').textContent = session.email;
+                document.getElementById('profilePhone').textContent = session.phone;
+                document.getElementById('profileImage').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(session.name)}&size=120&background=03A6A6&color=fff`;
+            }
         }
 
-        // Create Place Card
+        function showEditProfile() {
+            const session = JSON.parse(localStorage.getItem('session') || 'null');
+            if (session) {
+                document.getElementById('editName').value = session.name;
+                document.getElementById('editEmail').value = session.email;
+                document.getElementById('editPhone').value = session.phone;
+                new bootstrap.Modal(document.getElementById('editProfileModal')).show();
+            }
+        }
+
+        function updateProfile(e) {
+            e.preventDefault();
+            const name = document.getElementById('editName').value;
+            const email = document.getElementById('editEmail').value;
+            const phone = document.getElementById('editPhone').value;
+
+            const session = JSON.parse(localStorage.getItem('session'));
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            const userIndex = users.findIndex(u => u.email === session.email);
+            if (userIndex !== -1) {
+                users[userIndex].name = name;
+                users[userIndex].email = email;
+                users[userIndex].phone = phone;
+                localStorage.setItem('users', JSON.stringify(users));
+                
+                session.name = name;
+                session.email = email;
+                session.phone = phone;
+                localStorage.setItem('session', JSON.stringify(session));
+                
+                loadUserData();
+                bootstrap.Modal.getInstance(document.getElementById('editProfileModal')).hide();
+                alert('Profile berhasil diperbarui!');
+            }
+        }
+
+        function showForgotPassword() {
+            new bootstrap.Modal(document.getElementById('forgotPasswordModal')).show();
+        }
+
+        function resetPassword(e) {
+            e.preventDefault();
+            const email = document.getElementById('forgotEmail').value;
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            if (users.find(u => u.email === email)) {
+                alert('Link reset password telah dikirim ke email Anda! (Simulasi)');
+                bootstrap.Modal.getInstance(document.getElementById('forgotPasswordModal')).hide();
+            } else {
+                alert('Email tidak terdaftar!');
+            }
+        }
+
+        // Page Navigation
+        function showPage(pageName) {
+    document.body.classList.remove('welcome-mode');
+    document.getElementById('mainNavbar').classList.remove('d-none');
+
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+
+    if (pageName === 'home') {
+        document.getElementById('homePage').classList.add('active');
+        renderPlaces();
+    }
+    if (pageName === 'mybooking') {
+        document.getElementById('mybookingPage').classList.add('active');
+        renderBookings();
+    }
+    if (pageName === 'profile') {
+        document.getElementById('profilePage').classList.add('active');
+        loadUserData();
+    }
+}
+
+        function backToHome() {
+            showPage('home');
+        }
+
+        function showLoginPage() {
+    document.body.classList.remove('welcome-mode');
+    document.getElementById('mainNavbar').classList.add('d-none');
+
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('loginPage').classList.add('active');
+}
+
+        function showRegisterPage() {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('registerPage').classList.add('active');
+        }
+
+        // Render Places
+        function renderPlaces() {
+            const restaurants = places.filter(p => p.type === 'restaurant');
+            const cafes = places.filter(p => p.type === 'cafe');
+            const allPlaces = [...restaurants.slice(0, 10), ...cafes.slice(0, 10)];
+
+            document.getElementById('allPlaces').innerHTML = allPlaces.map(place => createPlaceCard(place)).join('');
+            document.getElementById('restaurantList').innerHTML = restaurants.map(place => createPlaceCard(place)).join('');
+            document.getElementById('cafeList').innerHTML = cafes.map(place => createPlaceCard(place)).join('');
+        }
+
         function createPlaceCard(place) {
             return `
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card resto-card" onclick="showDetail(${place.id})">
-                        <img src="${place.image}" class="card-img-top" alt="${place.name}">
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card restaurant-card" onclick="showDetail(${place.id})">
+                        <img src="${place.images[0]}" class="card-img-top" alt="${place.name}">
                         <div class="card-body">
-                            <h6 class="card-title">${place.name}</h6>
-                            <p class="text-muted small mb-2">
-                                <i class="bi bi-geo-alt-fill text-primary"></i> ${place.location}
-                            </p>
+                            <h5 class="card-title">${place.name}</h5>
+                            <p class="card-text text-muted">${place.description.substring(0, 60)}...</p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="badge bg-warning text-dark">
-                                    <i class="bi bi-star-fill rating-star"></i> ${place.rating}
-                                </span>
-                                <small class="text-muted">${place.visits} kunjungan</small>
+                                <span class="badge bg-primary">${place.type === 'restaurant' ? 'Restoran' : 'Cafe'}</span>
+                                <small><i class="bi bi-geo-alt"></i> Solo</small>
                             </div>
                         </div>
                     </div>
@@ -644,406 +1371,280 @@ const cafes = [
             `;
         }
 
-        // Search Functionality
-        function performSearch() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const results = allPlaces.filter(place => 
-                place.name.toLowerCase().includes(query) ||
-                place.location.toLowerCase().includes(query)
-            );
-            
-            const resultsDiv = document.getElementById('searchResults');
-            
-            if (query === '') {
-                resultsDiv.innerHTML = '<p class="text-muted text-center">Mulai ketik untuk mencari...</p>';
-                return;
-            }
-            
-            if (results.length === 0) {
-                resultsDiv.innerHTML = '<p class="text-muted text-center">Tidak ditemukan</p>';
-                return;
-            }
-            
-            resultsDiv.innerHTML = results.map(place => `
-                <div class="search-result-item" onclick="showDetail(${place.id}); bootstrap.Modal.getInstance(document.getElementById('searchModal')).hide();">
-                    <div class="d-flex align-items-center">
-                        <img src="${place.image}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 10px;" class="me-3">
-                        <div>
-                            <h6 class="mb-0">${place.name}</h6>
-                            <small class="text-muted">${place.location}</small>
-                        </div>
-                    </div>
+        // Detail Functions
+        let currentPlace = null;
+
+        function showDetail(placeId) {
+            currentPlace = places.find(p => p.id === placeId);
+            if (!currentPlace) return;
+
+            const carouselInner = document.getElementById('detailCarouselInner');
+            carouselInner.innerHTML = currentPlace.images.map((img, index) => `
+                <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                    <img src="${img}" class="d-block w-100 detail-carousel" alt="${currentPlace.name}">
                 </div>
             `).join('');
-        }
 
-        // Show Detail
-        function showDetail(id) {
-            currentPlace = allPlaces.find(p => p.id === id);
-            const content = document.getElementById('detailContent');
-            
-            content.innerHTML = `
-                <div class="card">
-                    <img src="${currentPlace.image}" class="card-img-top" style="height: 300px; object-fit: cover;">
-                    <div class="card-body">
-                        <h3 class="card-title">${currentPlace.name}</h3>
-                        <div class="mb-3">
-                            <span class="badge bg-warning text-dark me-2">
-                                <i class="bi bi-star-fill rating-star"></i> ${currentPlace.rating}
-                            </span>
-                            <span class="badge" style="background-color: var(--primary);">
-                                ${currentPlace.category === 'restaurant' ? 'RESTORAN' : 'CAFE'}
-                            </span>
-                        </div>
-                        
-                        <h5 class="mt-4">Deskripsi</h5>
-                        <p>${currentPlace.description}</p>
-                        
-                        <h5 class="mt-4">Informasi</h5>
-                        <p class="mb-2">
-                            <i class="bi bi-geo-alt-fill text-primary me-2"></i>
-                            <strong>Alamat:</strong> ${currentPlace.location}
-                        </p>
-                        <p class="mb-2">
-                            <i class="bi bi-telephone-fill text-primary me-2"></i>
-                            <strong>Telepon:</strong> <a href="tel:${currentPlace.phone}">${currentPlace.phone}</a>
-                        </p>
-                        <p class="mb-4">
-                            <i class="bi bi-people-fill text-primary me-2"></i>
-                            <strong>Dikunjungi:</strong> ${currentPlace.visits} kali (7 hari terakhir)
-                        </p>
-                        
-                        <button class="btn btn-primary-custom w-100" onclick="showPage('bookingFormPage')">
-                            <i class="bi bi-calendar-check"></i> Buat Reservasi
-                        </button>
-                    </div>
-                </div>
+            document.getElementById('detailContent').innerHTML = `
+                <h3>${currentPlace.name}</h3>
+                <span class="badge badge-custom bg-primary mb-3">${currentPlace.type === 'restaurant' ? 'Restoran' : 'Cafe'}</span>
+                <p>${currentPlace.description}</p>
+                <hr>
+                <p><i class="bi bi-geo-alt-fill text-primary"></i> <strong>Alamat:</strong><br>${currentPlace.address}</p>
+                <p><i class="bi bi-telephone-fill text-primary"></i> <strong>Telepon:</strong><br>${currentPlace.phone}</p>
             `;
-            
-            showPage('detailPage');
+
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById('detailPage').classList.add('active');
         }
 
-        // Set Min Date
-        function setMinDate() {
+        // Booking Functions
+        function showBookingForm() {
+            if (!currentPlace) return;
+
+            document.getElementById('bookingPlaceId').value = currentPlace.id;
+            document.getElementById('bookingPlaceName').value = currentPlace.name;
+            
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('bookingDate').min = today;
+            document.getElementById('bookingDate').setAttribute('min', today);
+
+            new bootstrap.Modal(document.getElementById('bookingModal')).show();
         }
 
-        // Submit Booking
-        function submitBooking(event) {
-            event.preventDefault();
-            
+        function saveBooking(e) {
+            e.preventDefault();
+
             const booking = {
                 id: Date.now(),
-                placeId: currentPlace.id,
-                placeName: currentPlace.name,
-                placeImage: currentPlace.image,
-                name: document.getElementById('bookingName').value,
+                placeId: parseInt(document.getElementById('bookingPlaceId').value),
+                placeName: document.getElementById('bookingPlaceName').value,
                 date: document.getElementById('bookingDate').value,
                 time: document.getElementById('bookingTime').value,
                 people: document.getElementById('bookingPeople').value,
                 notes: document.getElementById('bookingNotes').value,
                 status: 'upcoming',
-                checkInCode: generateCheckInCode(),
+                bookingCode: 'BK' + Date.now().toString().substring(7),
                 createdAt: new Date().toISOString()
             };
-            
-            let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+
+            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
             bookings.push(booking);
             localStorage.setItem('bookings', JSON.stringify(bookings));
-            
+
+            bootstrap.Modal.getInstance(document.getElementById('bookingModal')).hide();
+            alert('Reservasi berhasil dibuat!');
             document.getElementById('bookingForm').reset();
-            showBookingDetail(booking.id);
-            loadBookings();
+            showPage('mybooking');
         }
 
-        // Generate Check-in Code
-        function generateCheckInCode() {
-            return 'RSV' + Math.random().toString(36).substr(2, 9).toUpperCase();
-        }
-
-        // Load Bookings
-        function loadBookings() {
+        function renderBookings() {
             const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
             
             const upcoming = bookings.filter(b => b.status === 'upcoming');
             const completed = bookings.filter(b => b.status === 'completed');
             const cancelled = bookings.filter(b => b.status === 'cancelled');
-            
-            document.getElementById('upcomingBookings').innerHTML = upcoming.length ? 
-                upcoming.map(b => createBookingCard(b)).join('') : 
-                '<p class="text-muted text-center">Belum ada booking</p>';
-                
-            document.getElementById('completedBookings').innerHTML = completed.length ? 
-                completed.map(b => createBookingCard(b)).join('') : 
-                '<p class="text-muted text-center">Belum ada booking selesai</p>';
-                
-            document.getElementById('cancelledBookings').innerHTML = cancelled.length ? 
-                cancelled.map(b => createBookingCard(b)).join('') : 
-                '<p class="text-muted text-center">Belum ada booking dibatalkan</p>';
+
+            document.getElementById('upcomingBookings').innerHTML = upcoming.length > 0 
+                ? upcoming.map(b => createBookingCard(b)).join('') 
+                : '<p class="text-center text-muted">Belum ada booking</p>';
+
+            document.getElementById('completedBookings').innerHTML = completed.length > 0 
+                ? completed.map(b => createBookingCard(b)).join('') 
+                : '<p class="text-center text-muted">Belum ada booking selesai</p>';
+
+            document.getElementById('cancelledBookings').innerHTML = cancelled.length > 0 
+                ? cancelled.map(b => createBookingCard(b)).join('') 
+                : '<p class="text-center text-muted">Belum ada booking dibatalkan</p>';
         }
 
-        // Create Booking Card
         function createBookingCard(booking) {
-            const statusClass = booking.status === 'upcoming' ? 'badge-upcoming' : 
-                               booking.status === 'completed' ? 'badge-completed' : 'badge-cancelled';
-            const statusText = booking.status === 'upcoming' ? 'Akan Datang' : 
-                              booking.status === 'completed' ? 'Selesai' : 'Dibatalkan';
-            
+            const statusBadge = {
+                'upcoming': '<span class="badge bg-primary">Akan Datang</span>',
+                'completed': '<span class="badge" style="background-color: var(--success); color: var(--secondary)">Selesai</span>',
+                'cancelled': '<span class="badge bg-danger">Dibatalkan</span>'
+            };
+
             return `
-                <div class="card mb-3" onclick="showBookingDetail(${booking.id})" style="cursor: pointer;">
+                <div class="card booking-card ${booking.status} mb-3">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h6 class="card-title mb-0">${booking.placeName}</h6>
-                            <span class="booking-badge ${statusClass}">${statusText}</span>
+                            <h5 class="card-title mb-0">${booking.placeName}</h5>
+                            ${statusBadge[booking.status]}
                         </div>
-                        <p class="text-muted mb-1">
-                            <i class="bi bi-calendar3"></i> ${formatDate(booking.date)} | ${booking.time}
-                        </p>
-                        <p class="text-muted mb-0">
-                            <i class="bi bi-people"></i> ${booking.people} orang
-                        </p>
+                        <p class="mb-1"><i class="bi bi-calendar"></i> ${formatDate(booking.date)} - ${booking.time}</p>
+                        <p class="mb-2"><i class="bi bi-people"></i> ${booking.people} Orang</p>
+                        <p class="mb-2"><small class="text-muted">Kode Booking: ${booking.bookingCode}</small></p>
+                        <button class="btn btn-sm btn-outline-primary" onclick="showBookingDetail(${booking.id})">
+                            Lihat Detail
+                        </button>
                     </div>
                 </div>
             `;
         }
 
-        // Show Booking Detail
         function showBookingDetail(bookingId) {
             const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
             const booking = bookings.find(b => b.id === bookingId);
-            
             if (!booking) return;
-            
-            const statusClass = booking.status === 'upcoming' ? 'badge-upcoming' : 
-                               booking.status === 'completed' ? 'badge-completed' : 'badge-cancelled';
-            const statusText = booking.status === 'upcoming' ? 'Akan Datang' : 
-                              booking.status === 'completed' ? 'Selesai' : 'Dibatalkan';
-            
-            const content = document.getElementById('bookingDetailContent');
-            content.innerHTML = `
-                <div class="card">
-                    <img src="${booking.placeImage}" class="card-img-top" style="height: 200px; object-fit: cover;">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start mb-3">
-                            <h4>${booking.placeName}</h4>
-                            <span class="booking-badge ${statusClass}">${statusText}</span>
-                        </div>
-                        
-                        <h5 class="mt-4">Detail Reservasi</h5>
-                        <table class="table">
-                            <tr>
-                                <td><strong>Nama</strong></td>
-                                <td>${booking.name}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Tanggal</strong></td>
-                                <td>${formatDate(booking.date)}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Waktu</strong></td>
-                                <td>${booking.time}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Jumlah Orang</strong></td>
-                                <td>${booking.people} orang</td>
-                            </tr>
-                            ${booking.notes ? `<tr><td><strong>Catatan</strong></td><td>${booking.notes}</td></tr>` : ''}
-                        </table>
-                        
-                        <div class="text-center my-4">
-                            <h6>Kode Check-in</h6>
-                            <canvas id="qrCode" class="qr-code"></canvas>
-                            <p class="mt-2"><strong>${booking.checkInCode}</strong></p>
-                        </div>
-                        
-                        ${booking.status === 'upcoming' ? `
-                            <button class="btn btn-danger-custom w-100" onclick="cancelBooking(${booking.id})">
-                                <i class="bi bi-x-circle"></i> Batalkan Reservasi
-                            </button>
-                        ` : ''}
+
+            const place = places.find(p => p.id === booking.placeId);
+
+            document.getElementById('bookingDetailContent').innerHTML = `
+                <div class="text-center mb-3">
+                    <img src="${place.images[0]}" class="img-fluid rounded" style="max-height: 300px; object-fit: cover; aspect-ratio: 1/2;" alt="${booking.placeName}">
+                </div>
+                <h5>${booking.placeName}</h5>
+                <hr>
+                <p><strong>Tanggal:</strong> ${formatDate(booking.date)}</p>
+                <p><strong>Waktu:</strong> ${booking.time}</p>
+                <p><strong>Jumlah Orang:</strong> ${booking.people} orang</p>
+                <p><strong>Status:</strong> <span class="badge ${booking.status === 'upcoming' ? 'bg-primary' : booking.status === 'completed' ? 'bg-success' : 'bg-danger'}">${booking.status === 'upcoming' ? 'Akan Datang' : booking.status === 'completed' ? 'Selesai' : 'Dibatalkan'}</span></p>
+                <p><strong>Kode Booking:</strong> ${booking.bookingCode}</p>
+                ${booking.notes ? `<p><strong>Catatan:</strong> ${booking.notes}</p>` : ''}
+                <hr>
+                <div class="qr-code">
+                    <div class="text-center">
+                        <i class="bi bi-qr-code" style="font-size: 100px; color: #ccc;"></i>
+                        <p class="text-muted mt-2">QR Code Check-in</p>
                     </div>
                 </div>
+                ${booking.status === 'upcoming' ? `
+                    <button class="btn btn-danger w-100 mt-3" onclick="cancelBooking(${booking.id})">
+                        <i class="bi bi-x-circle"></i> Batalkan Reservasi
+                    </button>
+                ` : ''}
             `;
-            
-            showPage('bookingDetailPage');
-            setTimeout(() => generateQR(booking.checkInCode), 100);
+
+            new bootstrap.Modal(document.getElementById('bookingDetailModal')).show();
         }
 
-        // Generate QR Code
-        function generateQR(text) {
-            const canvas = document.getElementById('qrCode');
-            if (!canvas) return;
-            
-            const ctx = canvas.getContext('2d');
-            canvas.width = 200;
-            canvas.height = 200;
-            
-            // Simple QR-like pattern
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, 200, 200);
-            
-            ctx.fillStyle = '#000000';
-            const size = 10;
-            for (let i = 0; i < 20; i++) {
-                for (let j = 0; j < 20; j++) {
-                    if (Math.random() > 0.5) {
-                        ctx.fillRect(i * size, j * size, size, size);
-                    }
+        function cancelBooking(bookingId) {
+            if (confirm('Yakin ingin membatalkan reservasi ini?')) {
+                const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+                const bookingIndex = bookings.findIndex(b => b.id === bookingId);
+                if (bookingIndex !== -1) {
+                    bookings[bookingIndex].status = 'cancelled';
+                    localStorage.setItem('bookings', JSON.stringify(bookings));
+                    bootstrap.Modal.getInstance(document.getElementById('bookingDetailModal')).hide();
+                    renderBookings();
+                    alert('Reservasi berhasil dibatalkan');
                 }
             }
         }
 
-        // Cancel Booking
-        function cancelBooking(bookingId) {
-            if (!confirm('Yakin ingin membatalkan reservasi ini?')) return;
+        // Search Function
+        function showSearchModal() {
+            new bootstrap.Modal(document.getElementById('searchModal')).show();
+            document.getElementById('searchInput').focus();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase();
+            if (query.length < 2) {
+                document.getElementById('searchResults').innerHTML = '';
+                return;
+            }
+
+            const results = places.filter(p => 
+                p.name.toLowerCase().includes(query) || 
+                p.description.toLowerCase().includes(query)
+            );
+
+            if (results.length === 0) {
+                document.getElementById('searchResults').innerHTML = '<p class="text-muted text-center">Tidak ada hasil</p>';
+                return;
+            }
+
+            document.getElementById('searchResults').innerHTML = results.map(place => `
+                <div class="card mb-2" onclick="showDetail(${place.id}); bootstrap.Modal.getInstance(document.getElementById('searchModal')).hide();" style="cursor: pointer;">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-3">
+                                <img src="${place.images[0]}" class="img-fluid rounded" alt="${place.name}">
+                            </div>
+                            <div class="col-9">
+                                <h6 class="mb-1">${place.name}</h6>
+                                <small class="text-muted">${place.description.substring(0, 50)}...</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        });
+
+        // Dark Mode Functions
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
             
-            let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-            const index = bookings.findIndex(b => b.id === bookingId);
-            
-            if (index !== -1) {
-                bookings[index].status = 'cancelled';
-                localStorage.setItem('bookings', JSON.stringify(bookings));
-                loadBookings();
-                showPage('myBookingPage');
+            const icon = document.querySelector('#darkModeBtn i');
+            if (isDark) {
+                icon.classList.remove('bi-moon-fill');
+                icon.classList.add('bi-sun-fill');
+            } else {
+                icon.classList.remove('bi-sun-fill');
+                icon.classList.add('bi-moon-fill');
             }
         }
 
-        // Format Date
-        function formatDate(dateStr) {
-            const date = new Date(dateStr);
+        function loadDarkMode() {
+            const isDark = localStorage.getItem('darkMode') === 'true';
+            if (isDark) {
+                document.body.classList.add('dark-mode');
+                const icon = document.querySelector('#darkModeBtn i');
+                icon.classList.remove('bi-moon-fill');
+                icon.classList.add('bi-sun-fill');
+            }
+        }
+
+        // Utility Functions
+        function formatDate(dateString) {
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            return date.toLocaleDateString('id-ID', options);
+            return new Date(dateString).toLocaleDateString('id-ID', options);
         }
 
-        // Load Profile
-        function loadProfile() {
-            document.getElementById('profileName').textContent = userProfile.name;
-            document.getElementById('profileEmail').textContent = userProfile.email;
-            document.getElementById('profilePhone').textContent = userProfile.phone;
-            
-            const img = document.getElementById('profileImage');
-            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(userProfile.name)}&size=120&background=03A6A6&color=fff`;
-        }
+        // Auto Carousel
+        const promoCarousel = new bootstrap.Carousel(document.getElementById('promoCarousel'), {
+            interval: 3000,
+            ride: 'carousel'
+        });
 
-        // Show Edit Profile
-        function showEditProfile() {
-            document.getElementById('editName').value = userProfile.name;
-            document.getElementById('editEmail').value = userProfile.email;
-            document.getElementById('editPhone').value = userProfile.phone;
-            
-            const modal = new bootstrap.Modal(document.getElementById('editProfileModal'));
-            modal.show();
-        }
-
-        // Save Profile
-        function saveProfile(event) {
-            event.preventDefault();
-            
-            userProfile.name = document.getElementById('editName').value;
-            userProfile.email = document.getElementById('editEmail').value;
-            userProfile.phone = document.getElementById('editPhone').value;
-            
-            localStorage.setItem('userProfile', JSON.stringify(userProfile));
-            loadProfile();
-            
-            const modal = bootstrap.Modal.getInstance(document.getElementById('editProfileModal'));
-            modal.hide();
-            
-            alert('Profile berhasil diperbarui!');
-        }
-
-        // Show Change Password
-        function showChangePassword() {
-            alert('Fitur ubah password akan segera hadir!');
-        }
-
-        // Show Notification Settings
-        function showNotificationSettings() {
-            alert('Pengaturan notifikasi akan segera hadir!');
-        }
-
-        // Show Language Settings
-        function showLanguageSettings() {
-            const language = prompt('Pilih bahasa:\n1. Indonesia (id)\n2. English (en)', 'id');
-            if (language) {
-                localStorage.setItem('language', language);
-                alert('Bahasa berhasil diubah!');
-            }
-        }
-
-        // Logout
-        function logout() {
-            if (confirm('Yakin ingin keluar?')) {
-                alert('Anda telah logout!');
-                // Clear some data but keep bookings
-                localStorage.removeItem('userProfile');
-                location.reload();
-            }
-        }
-
-        // Show Page
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            document.getElementById(pageId).classList.add('active');
-            window.scrollTo(0, 0);
-        }
+        // Event Listeners
+        document.getElementById('loginForm').addEventListener('submit', login);
+        document.getElementById('registerForm').addEventListener('submit', register);
+        document.getElementById('bookingForm').addEventListener('submit', saveBooking);
+        document.getElementById('editProfileForm').addEventListener('submit', updateProfile);
+        document.getElementById('forgotPasswordForm').addEventListener('submit', resetPassword);
 
         // Service Worker Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                const swCode = `
-                    const CACHE_NAME = 'reservin-v2';
-                    const urlsToCache = [
-                        '/',
-                        '/index.html'
-                    ];
-
-                    self.addEventListener('install', event => {
-                        event.waitUntil(
-                            caches.open(CACHE_NAME)
-                                .then(cache => cache.addAll(urlsToCache))
-                        );
-                    });
-
-                    self.addEventListener('fetch', event => {
-                        event.respondWith(
-                            caches.match(event.request)
-                                .then(response => response || fetch(event.request))
-                        );
-                    });
-                `;
-                
-                const blob = new Blob([swCode], { type: 'application/javascript' });
-                const swUrl = URL.createObjectURL(blob);
-                
-                navigator.serviceWorker.register(swUrl)
-                    .then(reg => console.log('Service Worker registered'))
-                    .catch(err => console.log('Service Worker registration failed'));
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => console.log('SW registered'))
+                    .catch(err => console.log('SW registration failed'));
             });
         }
 
-        // Create and inject manifest
+        // Create Manifest Dynamically
         const manifest = {
             name: "Reservin - Reservasi Restoran Solo",
             short_name: "Reservin",
-            description: "Aplikasi reservasi restoran dan cafe untuk Solo",
+            description: "Aplikasi reservasi restoran dan cafe di Solo",
             start_url: "/",
             display: "standalone",
             background_color: "#ffffff",
             theme_color: "#03A6A6",
             icons: [
                 {
-                    src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%2303A6A6' width='100' height='100'/%3E%3Ctext x='50' y='55' font-size='50' text-anchor='middle' dy='.3em' fill='white' font-family='Poppins, Arial' font-weight='700'%3ER%3C/text%3E%3C/svg%3E",
+                    src: "https://ui-avatars.com/api/?name=Reservin&size=192&background=03A6A6&color=fff",
                     sizes: "192x192",
-                    type: "image/svg+xml"
+                    type: "image/png"
                 },
                 {
-                    src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%2303A6A6' width='100' height='100'/%3E%3Ctext x='50' y='55' font-size='50' text-anchor='middle' dy='.3em' fill='white' font-family='Poppins, Arial' font-weight='700'%3ER%3C/text%3E%3C/svg%3E",
+                    src: "https://ui-avatars.com/api/?name=Reservin&size=512&background=03A6A6&color=fff",
                     sizes: "512x512",
-                    type: "image/svg+xml"
+                    type: "image/png"
                 }
             ]
         };
@@ -1052,11 +1653,30 @@ const cafes = [
         const manifestURL = URL.createObjectURL(manifestBlob);
         document.getElementById('manifest-placeholder').setAttribute('href', manifestURL);
 
-        // Auto-slide carousel
-        const carousel = new bootstrap.Carousel(document.getElementById('promoCarousel'), {
-            interval: 3000,
-            wrap: true
-        });
+        // Initialize App
+        loadDarkMode();
+        checkSession();
     </script>
+
+    <script>
+function showNavbar(mode) {
+    const navbar = document.getElementById('mainNavbar');
+    const menu = document.getElementById('navbarNav');
+
+    if (mode === 'welcome') {
+        navbar.classList.remove('d-none');
+        menu.classList.add('d-none');
+    }
+
+    if (mode === 'auth') {
+        navbar.classList.add('d-none');
+    }
+
+    if (mode === 'app') {
+        navbar.classList.remove('d-none');
+        menu.classList.remove('d-none');
+    }
+}
+</script>
 </body>
 </html>
