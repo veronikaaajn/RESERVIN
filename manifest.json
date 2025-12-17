@@ -2,7 +2,7 @@
   "id": "./",
   "name": "Reservin - Reservasi Restoran Solo",
   "short_name": "Reservin",
-  "description": "Aplikasi reservasi restoran dan cafe di solo",
+  "description": "Aplikasi reservasi restoran dan cafe di solo berbasis web dan mobile",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
