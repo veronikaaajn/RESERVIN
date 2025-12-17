@@ -667,6 +667,25 @@ body.welcome-mode .navbar-brand {
         </div>
     </div>
 
+    <!-- Offline Page -->
+<div id="offlinePage" class="page">
+    <div class="d-flex flex-column justify-content-center align-items-center"
+         style="min-height:100vh; text-align:center; padding:20px;">
+        
+        <i class="bi bi-wifi-off" style="font-size:5rem; color:#ED3F27;"></i>
+
+        <h2 class="mt-4">Koneksi Terputus</h2>
+        <p class="text-muted">
+            Tidak ada koneksi internet.<br>
+            Periksa jaringan Anda dan coba lagi.
+        </p>
+
+        <button class="btn btn-primary mt-3" onclick="checkConnection()">
+            Coba Lagi
+        </button>
+    </div>
+</div>
+
     <!-- Navbar -->
     <nav id="mainNavbar" class="navbar navbar-expand-lg fixed-top">
     <div class="container-fluid">
@@ -1683,6 +1702,46 @@ function showNavbar(mode) {
         menu.classList.remove('d-none');
     }
 }
+</script>
+
+<script>
+    function showOfflinePage() {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('offlinePage').classList.add('active');
+        document.getElementById('mainNavbar').classList.add('d-none');
+    }
+
+    function hideOfflinePage() {
+        document.getElementById('offlinePage').classList.remove('active');
+        document.getElementById('mainNavbar').classList.remove('d-none');
+
+        // kembali ke halaman awal / home
+        checkSession();
+    }
+
+    function checkConnection() {
+        if (navigator.onLine) {
+            hideOfflinePage();
+        } else {
+            alert("Masih offline. Periksa koneksi Anda.");
+        }
+    }
+
+    // Event listener otomatis
+    window.addEventListener('offline', () => {
+        showOfflinePage();
+    });
+
+    window.addEventListener('online', () => {
+        hideOfflinePage();
+    });
+
+    // Cek saat pertama kali load
+    window.addEventListener('load', () => {
+        if (!navigator.onLine) {
+            showOfflinePage();
+        }
+    });
 </script>
 </body>
 </html>
