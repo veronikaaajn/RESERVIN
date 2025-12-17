@@ -1,4 +1,4 @@
-const CACHE_NAME = "pwa-template-v2";
+const CACHE_NAME = "reservin-v1";
 const BASE_URL = self.registration.scope;
 
 const urlsToCache = [
@@ -9,17 +9,16 @@ const urlsToCache = [
   `${BASE_URL}manifest.json`,
   `${BASE_URL}icons/icon-192x192.png`,
   `${BASE_URL}icons/icon-512x512.png`,
-];
+]
 
 // Install Service Worker & simpan file ke cache
-self.addEventListener("install", event => {
-  self.skipWaiting(); // langsung aktif tanpa reload manual
+self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(urlsToCache))
-      .catch(err => console.error("Cache gagal dimuat:", err))
   );
 });
+
 
 // Aktivasi dan hapus cache lama
 self.addEventListener("activate", event => {
