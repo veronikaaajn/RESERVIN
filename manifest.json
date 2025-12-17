@@ -1,23 +1,23 @@
 {
   "id": "./",
-  "name": "PWA Template Responsif",
-  "short_name": "PWA Demo",
-  "description": "Aplikasi PWA responsif untuk demonstrasi template dasar Progressive Web App dengan dukungan offline dan installable.",
+  "name": "Reservin - Reservasi Restoran Solo",
+  "short_name": "Reservin",
+  "description": "Aplikasi reservasi restoran dan cafe di solo",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#4F46E5",
-  "theme_color": "#4F46E5",
+  "background_color": "#ffffff",
+  "theme_color": "#03A6A6",
   "orientation": "portrait",
   "lang": "id",
   "icons": [
     {
-      "src": "icons/icon-192x192-A.png",
+      "src": "logo/logo5.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icons/icon-512x512-B.png",
+      "src": "logo/logo6.png",
       "sizes": "512x512",
       "type": "image/png"
     }
