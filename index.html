@@ -750,7 +750,7 @@ body.welcome-mode .navbar-brand {
                             <input type="checkbox" class="form-check-input" id="rememberMe">
                             <label class="form-check-label" for="rememberMe">Ingat Saya</label>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100 mb-2">Masuk</button>
+                        <button type="submit" class="btn btn-primary w-100 mb-2">Masuk</button> updateNavbar("home")
                         <button type="button" class="btn btn-link w-100 mb-2" onclick="showForgotPassword()">Lupa Password?</button>
                         <hr>
                         <button type="button" class="btn btn-outline-primary w-100" onclick="showRegisterPage()">
@@ -1685,6 +1685,18 @@ body.welcome-mode .navbar-brand {
         // Initialize App
         loadDarkMode();
         checkSession();
+
+        function updateNavbar(page) {
+    const navbar = document.getElementById("mainNavbar");
+
+    if (page === "welcome" || page === "login" || page === "register") {
+        navbar.style.display = "none";
+        document.body.classList.add("welcome-mode");
+    } else {
+        navbar.style.display = "flex";
+        document.body.classList.remove("welcome-mode");
+    }
+}
     </script>
 
     <script>
@@ -1746,6 +1758,16 @@ function showNavbar(mode) {
             showOfflinePage();
         }
     });
+</script>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    // simulasi login sukses
+    updateNavbar("home");
+    showPage("home");
+});
 </script>
 </body>
 </html>
