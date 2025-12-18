@@ -22,18 +22,7 @@
       "type": "image/png"
     }
   ],
-  "screenshots": [
-    {
-      "src": "icons/screenshot1.png",
-      "sizes": "1080x1920",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/screenshot2.png",
-      "sizes": "1080x1920",
-      "type": "image/png"
-    }
-  ],
+ 
   "shortcuts": [
     {
       "name": "Buka Beranda",
@@ -41,7 +30,7 @@
       "url": "./index.html",
       "icons": [
         {
-          "src": "icons/icon-192x192-A.png",
+          "src": "logo/logo6.png",
           "sizes": "192x192"
         }
       ]
