@@ -12,12 +12,12 @@
   "lang": "id",
   "icons": [
     {
-      "src": "logo/logo5.png",
+      "src": "logo/logo6.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "logo/logo6.png",
+      "src": "logo/logo5.png",
       "sizes": "512x512",
       "type": "image/png"
     }
