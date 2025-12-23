@@ -407,7 +407,7 @@
         }
 
         .logo-img {
-            max-height: 45px;
+            max-height: 100px;
             height: auto;
             width: auto;
             object-fit: contain;
@@ -613,7 +613,7 @@ body.welcome-mode .navbar {
     <div id="welcomePage" class="page active">
         <div class="welcome-container">
             <div class="welcome-header">
-                <img src="logo/logo5.png" class="welcome-logo">
+                <img src="logo/logo2.jpg" class="welcome-logo">
             </div>
 
             <div class="welcome-body">
@@ -705,7 +705,6 @@ body.welcome-mode .navbar {
                 </button>
             </div>
         </div>
-
     </div>
 </nav>
 
@@ -1316,23 +1315,27 @@ body.welcome-mode .navbar {
 
         // Page Navigation
         function showPage(pageName) {
-    document.body.classList.remove('welcome-mode');
-    document.getElementById('mainNavbar').classList.remove('d-none');
+  document.body.classList.remove('welcome-mode');
 
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // NAVBAR HARUS MUNCUL
+  showNavbar();
 
-    if (pageName === 'home') {
-        document.getElementById('homePage').classList.add('active');
-        renderPlaces();
-    }
-    if (pageName === 'mybooking') {
-        document.getElementById('mybookingPage').classList.add('active');
-        renderBookings();
-    }
-    if (pageName === 'profile') {
-        document.getElementById('profilePage').classList.add('active');
-        loadUserData();
-    }
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+
+  if (pageName === 'home') {
+    document.getElementById('homePage').classList.add('active');
+    renderPlaces();
+  }
+
+  if (pageName === 'mybooking') {
+    document.getElementById('mybookingPage').classList.add('active');
+    renderBookings();
+  }
+
+  if (pageName === 'profile') {
+    document.getElementById('profilePage').classList.add('active');
+    loadUserData();
+  }
 }
 
         function backToHome() {
@@ -1718,6 +1721,25 @@ body.welcome-mode .navbar {
     </script>
 
     <script>
+function showNavbar() {
+  const navbar = document.getElementById('mainNavbar');
+  if (!navbar) return;
+
+  navbar.classList.remove('d-none');
+  navbar.style.display = 'flex';
+}
+
+function hideNavbar() {
+  const navbar = document.getElementById('mainNavbar');
+  if (!navbar) return;
+
+  navbar.classList.add('d-none');
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  showNavbar();
+});
+
 function showNavbar(mode) {
     const navbar = document.getElementById('mainNavbar');
     const menu = document.getElementById('navbarNav');
