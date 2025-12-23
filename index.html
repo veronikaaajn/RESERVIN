@@ -19,9 +19,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="#" id="manifest-placeholder">
-    
     <style>
         :root {
             --primary: #63b9f3;
@@ -43,10 +40,13 @@
         }
         
         body {
-            background-color: var(--bg-light);
-            color: var(--text-light);
-            padding-top: 80px;
-            transition: all 0.3s ease;
+        padding-top: 70px;
+        }
+
+        @media (max-width: 576px) {
+        body {
+        padding-top: 60px;
+        }
         }
         
         body.dark-mode {
@@ -407,7 +407,7 @@
         }
 
         .logo-img {
-            max-height: 300px;
+            max-height: 45px;
             height: auto;
             width: auto;
             object-fit: contain;
@@ -1644,6 +1644,14 @@ body.welcome-mode .navbar {
                     .catch(err => console.log('SW gagal:',err));
             }
 
+        if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(reg => console.log('SW registered'))
+      .catch(err => console.log('SW failed', err));
+  });
+}
+
         // Create Manifest Dynamically
         const manifest = {
             name: "Reservin - Reservasi Restoran Solo",
@@ -1778,6 +1786,13 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
     // simulasi login sukses
     updateNavbar("main");
 showPage('home');
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const navbar = document.getElementById("mainNavbar");
+  if (navbar) {
+    navbar.classList.remove("d-none");
+  }
 });
 </script>
 </body>
