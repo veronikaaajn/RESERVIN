@@ -437,12 +437,6 @@ body.welcome-mode .navbar {
             background: linear-gradient(135deg, #028a8a 0%, #026a6a 100%);
         }
 
-        .welcome-header {
-            text-align: center;
-            padding: 60px 20px 40px;
-            animation: fadeInDown 1s ease-out;
-        }
-
           .welcome-logo {
     max-width: 250px;
     width: 100%;
@@ -604,25 +598,9 @@ body.welcome-mode .navbar {
             }
         }
 
-        /* ===== MODE WELCOME: HANYA LOGO ===== */
-body.welcome-mode #navbarNav,
-body.welcome-mode .search-btn,
-body.welcome-mode .dark-mode-btn {
-    display: none !important;
-}
-
-body.welcome-mode .navbar-brand {
-    margin: 0 auto;
-}
-
-/* Ukuran logo normal (home & setelah login) */
-.logo-img {
-    max-height: 150px;
-}
-
 /* Logo lebih besar di halaman home (opsional) */
 #homePage .logo-img {
-    max-height: 150px;
+    max-height: 200px;
 }
     </style>
 </head>
@@ -632,7 +610,7 @@ body.welcome-mode .navbar-brand {
     <div id="welcomePage" class="page active">
         <div class="welcome-container">
             <div class="welcome-header">
-                <img src="logo/logo2.jpg" class="welcome-logo">
+                <img src="logo/logo5.png" class="welcome-logo">
             </div>
 
             <div class="welcome-body">
@@ -697,7 +675,7 @@ body.welcome-mode .navbar-brand {
     <div class="container-fluid">
 
         <!-- LOGO -->
-        <a class="navbar-brand mx-auto" href="#">
+        <a class="navbar-brand mx- o" href="#">
             <img src="logo/logo1.jpg" alt="Logo" class="logo-img">
         </a>
 
@@ -734,10 +712,10 @@ body.welcome-mode .navbar-brand {
             <div class="card shadow">
                 <div class="card-body">
                     <div class="logo-auth">
-                        <i class="bi bi-calendar-check"></i><br>Reservin
+                        <img src="logo/logo1.jpg" alt="Logo" class="logo-img">
                     </div>
                     <h4 class="text-center mb-4">Masuk ke Akun Anda</h4>
-                    <form id="loginForm">
+                    <form id="loginForm"> 
                         <div class="mb-3">
                             <label class="form-label">Email</label>
                             <input type="email" class="form-control" id="loginEmail" required>
@@ -1168,11 +1146,11 @@ body.welcome-mode .navbar-brand {
 
         // Navigation to Login from Welcome Page
         function goToLogin() {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            document.getElementById('loginPage').classList.add('active');
-        }
+    updateNavbar("login");
+
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('loginPage').classList.add('active');
+}
 
         // Authentication Functions
         function hashPassword(password) {
@@ -1241,14 +1219,14 @@ body.welcome-mode .navbar-brand {
 
             localStorage.setItem('session', JSON.stringify(session));
             loadUserData();
+            updateNavbar("main");
             showPage('home');
         }
 
         function logout() {
-            if (confirm('Yakin ingin logout?')) {
-                localStorage.removeItem('session');
-                showWelcomePage();
-            }
+    localStorage.removeItem("session");
+    updateNavbar("welcome");
+    showWelcomePage();
         }
 
         function showWelcomePage() {
@@ -1356,6 +1334,14 @@ body.welcome-mode .navbar-brand {
 
         function backToHome() {
             showPage('home');
+            if (pageName === 'home') {
+    document.getElementById('homePage').classList.add('active');
+    renderPlaces();
+
+    setTimeout(() => {
+        initTabs();
+    }, 50);
+}
         }
 
         function showLoginPage() {
@@ -1686,6 +1672,27 @@ body.welcome-mode .navbar-brand {
         loadDarkMode();
         checkSession();
 
+        function updateNavbar(mode) {
+    const navbar = document.getElementById("mainNavbar");
+    const navbarNav = document.getElementById("navbarNav");
+
+    if (mode === "welcome") {
+        navbar.style.display = "flex";
+        navbarNav.style.display = "none";
+        navbar.classList.add("justify-content-center");
+    }
+
+    if (mode === "login") {
+        navbar.style.display = "none";
+    }
+
+    if (mode === "main") {
+        navbar.style.display = "flex";
+        navbarNav.style.display = "flex";
+        navbar.classList.remove("justify-content-center");
+    }
+}
+
         function updateNavbar(page) {
     const navbar = document.getElementById("mainNavbar");
 
@@ -1753,6 +1760,7 @@ function showNavbar(mode) {
     });
 
     // Cek saat pertama kali load
+    updateNavbar("welcome");
     window.addEventListener('load', () => {
         if (!navigator.onLine) {
             showOfflinePage();
@@ -1765,8 +1773,8 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
     e.preventDefault();
 
     // simulasi login sukses
-    updateNavbar("home");
-    showPage("home");
+    updateNavbar("main");
+showPage('home');
 });
 </script>
 </body>
