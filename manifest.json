@@ -5,7 +5,7 @@
   "description": "Aplikasi reservasi restoran dan cafe di solo berbasis website dan mobile",
   "start_url": "./index.html",
   "scope": "./",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#ffffff",
   "theme_color": "#03A6A6",
   "orientation": "portrait",
