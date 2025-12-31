@@ -1,90 +1,40 @@
 {
   "name": "Reservin - Reservasi Restoran & Cafe Solo",
   "short_name": "Reservin",
-  "description": "Platform reservasi restoran dan cafe terpercaya di Solo. Booking meja favoritmu dengan mudah, cepat, dan praktis.",
-  "start_url": "/index.html",
-  "scope": "/",
+  "description": "Platform reservasi restoran dan cafe terpercaya di Solo.",
+  "start_url": "/RESERVIN/index.html",
+  "scope": "/RESERVIN/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#ffffff",
   "theme_color": "#63b9f3",
-  "categories": ["food", "lifestyle", "business"],
   "lang": "id-ID",
-  "dir": "ltr",
-  
+
   "icons": [
     {
-      "src": "logo/logo6.png",
+      "src": "/RESERVIN/logo/logo6.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
+      "type": "image/png"
     },
     {
-      "src": "logo/logo6.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "logo/logo5.png",
+      "src": "/RESERVIN/logo/logo5.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "logo/logo5.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "type": "image/png"
     }
   ],
-  
+
   "shortcuts": [
     {
       "name": "Lihat Cafe",
-      "short_name": "Cafe",
-      "description": "Lihat daftar cafe di Solo",
-      "url": "/index.html?view=cafe",
-      "icons": [
-        {
-          "src": "logo/logo6.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
+      "url": "/RESERVIN/index.html?view=cafe"
     },
     {
       "name": "Lihat Restoran",
-      "short_name": "Restoran",
-      "description": "Lihat daftar restoran di Solo",
-      "url": "/index.html?view=restaurant",
-      "icons": [
-        {
-          "src": "logo/logo6.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
+      "url": "/RESERVIN/index.html?view=restaurant"
     },
     {
       "name": "My Booking",
-      "short_name": "Booking",
-      "description": "Lihat reservasi saya",
-      "url": "/index.html?page=mybooking",
-      "icons": [
-        {
-          "src": "logo/logo6.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
+      "url": "/RESERVIN/index.html?page=mybooking"
     }
-  ],
-  
-  "related_applications": [],
-  "prefer_related_applications": false,
-  
-  "launch_handler": {
-    "client_mode": "focus-existing"
-  }
+  ]
 }
