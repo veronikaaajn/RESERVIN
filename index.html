@@ -884,7 +884,7 @@ body.welcome-mode .navbar {
     <div id="detailPage" class="page detail-page">
         <div class="container">
             <button class="btn btn-outline-primary back-btn" onclick="backToHome()">
-                <i class="bi bi-arrow-left">Kembali</i>
+                <i class="bi bi-arrow-left"></i>Kembali
             </button>
             
             <div class="card shadow">
@@ -1363,16 +1363,8 @@ body.welcome-mode .navbar {
 }
 
         function backToHome() {
-            showPage('home');
-            if (pageName === 'home') {
-    document.getElementById('homePage').classList.add('active');
-    renderPlaces();
-
-    setTimeout(() => {
-        initTabs();
-    }, 50);
+    showPage('home'); 
 }
-        }
 
         function showLoginPage() {
     document.body.classList.remove('welcome-mode');
