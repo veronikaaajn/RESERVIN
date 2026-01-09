@@ -4,7 +4,7 @@
   "description": "Platform reservasi restoran dan cafe terpercaya di Solo. Booking meja favoritmu dengan mudah, cepat, dan praktis.",
   "start_url": "/index.html",
   "scope": "/",
-  "display": "fullscreen",
+  "display": "fullscreen sticky",
   "orientation": "portrait-primary",
   "background_color": "#ffffff",
   "theme_color": "#63b9f3",
