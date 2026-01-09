@@ -1,40 +1,43 @@
 {
-  "name": "Reservin - Reservasi Restoran & Cafe Solo",
+  "id": "./",
+  "name": "Reservin - Reservasi Restoran Solo",
   "short_name": "Reservin",
-  "description": "Platform reservasi restoran dan cafe terpercaya di Solo.",
-  "start_url": "/RESERVIN/index.html",
-  "scope": "/RESERVIN/",
-  "display": "standalone",
-  "orientation": "portrait-primary",
+  "description": "Aplikasi reservasi restoran dan cafe di solo berbasis website dan mobile",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
   "background_color": "#ffffff",
-  "theme_color": "#63b9f3",
-  "lang": "id-ID",
-
+  "theme_color": "#03A6A6",
+  "orientation": "portrait",
+  "lang": "id",
   "icons": [
     {
-      "src": "/RESERVIN/logo/logo6.png",
+      "src": "logo/logo6.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/RESERVIN/logo/logo5.png",
+      "src": "logo/logo5.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ],
-
+ 
   "shortcuts": [
     {
-      "name": "Lihat Cafe",
-      "url": "/RESERVIN/index.html?view=cafe"
-    },
-    {
-      "name": "Lihat Restoran",
-      "url": "/RESERVIN/index.html?view=restaurant"
-    },
-    {
-      "name": "My Booking",
-      "url": "/RESERVIN/index.html?page=mybooking"
+      "name": "Buka Beranda",
+      "short_name": "Home",
+      "url": "./index.html",
+      "icons": [
+        {
+          "src": "logo/logo6.png",
+          "sizes": "192x192"
+        }
+      ]
     }
+  ],
+  "categories": [
+    "productivity",
+    "utilities"
   ]
 }
