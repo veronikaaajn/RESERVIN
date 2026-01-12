@@ -67,10 +67,11 @@ self.addEventListener('activate', event => {
           })
         );
       })
+      .then(() => {
+        // Take control of all pages immediately
+        return self.clients.claim();
+      })
   );
-  
-  // Take control of all pages immediately
-  return self.clients.claim();
 });
 
 // =====================================================================
@@ -90,16 +91,23 @@ self.addEventListener('fetch', event => {
     return;
   }
   
+  // Check if request has accept header
+  const acceptHeader = request.headers.get('accept');
+  if (!acceptHeader) {
+    event.respondWith(networkFirst(request));
+    return;
+  }
+  
   // Handle different types of requests with different strategies
   
   // 1. HTML - Network First (always try to get fresh content)
-  if (request.headers.get('accept').includes('text/html')) {
+  if (acceptHeader.includes('text/html')) {
     event.respondWith(networkFirst(request));
     return;
   }
   
   // 2. Images - Cache First (images don't change often)
-  if (request.headers.get('accept').includes('image')) {
+  if (acceptHeader.includes('image')) {
     event.respondWith(cacheFirst(request));
     return;
   }
