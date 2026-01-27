@@ -370,7 +370,7 @@
         
         .place-card img {
             width: 100%;
-            height: 200px;
+            height: 250px;
             object-fit: cover;
         }
         
@@ -1499,11 +1499,11 @@
         /* Responsive */
         @media (max-width: 576px) {
             .carousel-item img {
-                height: 90px;
+                height: 150px;
             }
             
             .place-card {
-                min-width: 90px;
+                min-width: 140px;
             }
             
             .place-card img {
@@ -2313,11 +2313,11 @@
         // ========== GLOBAL VARIABLES ==========
         const places = [
             // Cafe (25 tempat)
-            {id: 1, name: "18 Grounds Coffee", type: "cafe", description: "Best Coffee & Cookies", address: "Jl. Honggowongso No.78G, Panularan, Kec. Laweyan, Kota Surakarta, Jawa Tengah 57149 ", phone: "+62 271 717701", rating: 4.6, distance: 1.7, price: "sedang", images: ["Asset Cafe/1. 18 Grounds Coffee/gambar1.jpg"], popular: true, promo: "Diskon 20% untuk semua minuman", open: true},
-            {id: 2, name: "25 Coffee", type: "cafe", description: "Brewing you the best coffee from Indonesia with a reasonable price", address: "Jl. Imam Bonjol No.55, Kp. Baru, Kec. Ps. Kliwon, Kota Surakarta, Jawa Tengah 57133", phone: "0851-3332-3225", rating: 4.9, distance: 3.8, price: "mahal", images: ["Asset Cafe/2. 25 Coffee/gambar3.jpg"], popular: true, promo: "Beli 1 gratis 1 setiap hari Senin", open: true},
-            {id: 3, name: "Bahagia Bersama", type: "cafe", description: "Coffee shop modern dengan interior minimalis", address: "Jl. Yos Sudarso No.81, Kauman, Kec. Ps. Kliwon, Kota Surakarta, Jawa Tengah 57151", phone: "082227470050", rating: 4.7, distance: 2.5, price: "murah", images: ["Asset Cafe/3. Bahagia Bersama/gambar6.jpg"], popular: false, promo: null, open: true},
-            {id: 4, name: "Cold n brew", type: "cafe", description: "Coffee 'N Coworking Space #houseofideas", address: "Dusun I, Madegondo, Kec. Grogol, Kabupaten Sukoharjo, Jawa Tengah 57552", phone: "085117070920", rating: 4.7, distance: 1.5, price: "sedang", images: ["Asset Cafe/4. cold n brew/gambar8.jpg"], popular: true, promo: "Happy hour 15:00-17:00", open: true},
-            {id: 5, name: "Communion", type: "cafe", description: "Coffee - Collaboration - Space", address: "Jl. Brigjen Slamet Riyadi No.61, Kauman, Kec. Ps. Kliwon, Kota Surakarta, Jawa Tengah 57122", phone: "08218638336", rating: 4.2, distance: 2.1, price: "sedang", images: ["Asset Cafe/5. Communion/gambar13.jpg"], popular: false, promo: null, open: false},
+            {id: 1, name: "18 Grounds Coffee", type: "cafe", description: "Best Coffee & Cookies", address: "Jl. Honggowongso No.78G, Panularan, Kec. Laweyan, Kota Surakarta, Jawa Tengah 57149 ", phone: "+62 271 717701", rating: 4.6, distance: 1.7, price: "sedang", images: ["Asset Cafe/1. 18 Grounds Coffee/a1.jpg"], popular: true, promo: "Diskon 20% untuk semua minuman", open: true},
+            {id: 2, name: "25 Coffee", type: "cafe", description: "Brewing you the best coffee from Indonesia with a reasonable price", address: "Jl. Imam Bonjol No.55, Kp. Baru, Kec. Ps. Kliwon, Kota Surakarta, Jawa Tengah 57133", phone: "0851-3332-3225", rating: 4.9, distance: 3.8, price: "mahal", images: ["Asset Cafe/2. 25 Coffee/a2.jpg"], popular: true, promo: "Beli 1 gratis 1 setiap hari Senin", open: true},
+            {id: 3, name: "Bahagia Bersama", type: "cafe", description: "Coffee shop modern dengan interior minimalis", address: "Jl. Yos Sudarso No.81, Kauman, Kec. Ps. Kliwon, Kota Surakarta, Jawa Tengah 57151", phone: "082227470050", rating: 4.7, distance: 2.5, price: "murah", images: ["Asset Cafe/3. Bahagia Bersama/a3.jpg"], popular: false, promo: null, open: true},
+            {id: 4, name: "Cold n brew", type: "cafe", description: "Coffee 'N Coworking Space #houseofideas", address: "Dusun I, Madegondo, Kec. Grogol, Kabupaten Sukoharjo, Jawa Tengah 57552", phone: "085117070920", rating: 4.7, distance: 1.5, price: "sedang", images: ["Asset Cafe/4. cold n brew/a4.jpg"], popular: true, promo: "Happy hour 15:00-17:00", open: true},
+            {id: 5, name: "Communion", type: "cafe", description: "Coffee - Collaboration - Space", address: "Jl. Brigjen Slamet Riyadi No.61, Kauman, Kec. Ps. Kliwon, Kota Surakarta, Jawa Tengah 57122", phone: "08218638336", rating: 4.2, distance: 2.1, price: "sedang", images: ["Asset Cafe/5. Communion/a5.jpg"], popular: false, promo: null, open: false},
             {id: 6, name: "Gettsee", type: "cafe", description: "BREWING EVERYDAY!✨", address: "Jl. Slamet Riyadi No.268 Rt06/04, Timuran, Kec. Banjarsari, Kota Surakarta, Jawa Tengah 57714", phone: "0271-6789012", rating: 4.6, distance: 1.8, price: "murah", images: ["Asset Cafe/6. Gettsee/gambar16.jpg"], popular: false, promo: null, open: true},
             {id: 7, name: "Kagumi", type: "cafe", description: "Kopi, Roti, Nasi", address: "Jl. Yosodipuro No.49, Timuran, Kec. Banjarsari, Kota Surakarta, Jawa Tengah 57131", phone: "0271-7890123", rating: 4.2, distance: 2.3, price: "sedang", images: ["Asset Cafe/7. KAGUMI/gambar20.jpg"], popular: true, promo: "Diskon 15% kopi spesial", open: true},
             {id: 8, name: "Kalagyan", type: "cafe", description: "Cafe dengan konsep unik dan menu kreatif", address: "Jl. Slamet Riyadi No.11, Kauman, Kec. Ps. Kliwon, Kota Surakarta, Jawa Tengah 57122", phone: "0271-8901234", rating: 4.6, distance: 3.0, price: "murah", images: ["Asset Cafe/8. KALAGYAN/gambar24.jpg"], popular: false, promo: null, open: true},
