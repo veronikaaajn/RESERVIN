@@ -2396,42 +2396,89 @@ document.addEventListener('DOMContentLoaded', function () {
         let currentUser = JSON.parse(localStorage.getItem('session') || 'null');
         let activeCategory = 'all';
         let currentReservationPlace = null;
+        
 
-        // ========== INITIALIZATION ==========
+        // ========== ALIZATION ==========
         function initApp() {
-            // Load dark mode
-            const isDark = localStorage.getItem('darkMode') === 'true';
-            if (isDark) {
-                document.body.classList.add('dark-mode');
-                const icon = document.querySelector('#darkModeBtn i');
-                if (icon) {
-                    icon.classList.remove('bi-moon-fill');
-                    icon.classList.add('bi-sun-fill');
-                }
-                const switchEl = document.getElementById('darkModeSwitch');
-                if (switchEl) {
-                    switchEl.checked = true;
-                }
-                const labelEl = document.getElementById('darkModeLabel');
-                if (labelEl) {
-                    labelEl.textContent = 'Mode Terang';
-                }
-            }
-
-            // Check session
-            if (currentUser && currentUser.rememberMe) {
-                showApp();
-            } else {
-                showWelcomePage();
-            }
-
-            // Initialize sample data if empty
-            if (bookings.length === 0) {
-                initSampleBookings();
-            }
-
-            setupEventListeners();
+    // Load dark mode
+    const isDark = localStorage.getItem('darkMode') === 'true';
+    if (isDark) {
+        document.body.classList.add('dark-mode');
+        const icon = document.querySelector('#darkModeBtn i');
+        if (icon) {
+            icon.classList.remove('bi-moon-fill');
+            icon.classList.add('bi-sun-fill');
         }
+        const switchEl = document.getElementById('darkModeSwitch');
+        if (switchEl) {
+            switchEl.checked = true;
+        }
+        const labelEl = document.getElementById('darkModeLabel');
+        if (labelEl) {
+            labelEl.textContent = 'Mode Terang';
+        }
+    }
+
+    // Check session - PERBAIKAN DI SINI
+    currentUser = JSON.parse(localStorage.getItem('session') || 'null');
+    
+    // Cek apakah user sudah login DAN session masih valid
+    if (currentUser && currentUser.loginTime) {
+        // Cek apakah session belum kadaluarsa (misal: 7 hari)
+        const loginTime = new Date(currentUser.loginTime);
+        const now = new Date();
+        const diffTime = Math.abs(now - loginTime);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (diffDays <= 7) { // Session masih valid (7 hari)
+            showApp();
+        } else {
+            // Session expired
+            localStorage.removeItem('session');
+            currentUser = null;
+            showWelcomePage();
+        }
+    } else {
+        showWelcomePage();
+    }
+
+    // Initialize sample data if empty
+    if (bookings.length === 0) {
+        initSampleBookings();
+    }
+
+    setupEventListeners();
+}
+// Simpan halaman terakhir yang dilihat
+function saveLastPage(pageName) {
+    localStorage.setItem('lastPage', pageName);
+}
+
+// Dapatkan halaman terakhir
+function getLastPage() {
+    return localStorage.getItem('lastPage') || 'home';
+}
+
+// Di fungsi showPage, tambahkan:
+function showPage(pageName) {
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+
+    // Show target page
+    const targetPage = document.getElementById(pageName + 'Page');
+    if (targetPage) {
+        targetPage.classList.add('active');
+    }
+
+    // Save last page (kecuali untuk auth pages)
+    if (!['welcome', 'login', 'register'].includes(pageName)) {
+        saveLastPage(pageName);
+    }
+    
+    // ... kode lainnya tetap sama ...
+}
 
         function initSampleBookings() {
             const sampleBookings = [
@@ -2478,10 +2525,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         function showApp() {
-            document.getElementById('topNavbar').classList.remove('d-none');
-            document.getElementById('bottomNavbar').classList.remove('d-none');
-            showPage('home');
-        }
+    document.getElementById('topNavbar').classList.remove('d-none');
+    document.getElementById('bottomNavbar').classList.remove('d-none');
+    
+    // Navigasi ke halaman terakhir atau home
+    const lastPage = getLastPage();
+    showPage(lastPage);
+}
 
         function showWelcomePage() {
             document.getElementById('topNavbar').classList.add('d-none');
@@ -2548,6 +2598,10 @@ document.addEventListener('DOMContentLoaded', function () {
         function showChatBotPage() {
             showPage('chatBot');
         }
+
+        saveLastPage('home'); // Simpan home sebagai default
+    showPage('login');
+
 
         // ========== HOME PAGE ==========
         function loadHomeContent() {
@@ -3457,16 +3511,41 @@ document.addEventListener('DOMContentLoaded', function () {
             
             showToast('Login berhasil!', 'success');
             showApp();
+
+            // Navigasi ke halaman home setelah login
+    setTimeout(() => {
+        showApp();
+    }, 500);
+}
+// Handle saat halaman di-refresh
+window.addEventListener('beforeunload', function() {
+    // Simpan state penting sebelum refresh
+    if (currentUser) {
+        localStorage.setItem('session', JSON.stringify(currentUser));
+    }
+});
+
+// Handle saat halaman selesai loading
+window.addEventListener('load', function() {
+    // Cek jika ada hash di URL untuk deep linking
+    const hash = window.location.hash.substring(1);
+    if (hash && ['home', 'explore', 'mybooking', 'profile'].includes(hash)) {
+        if (currentUser) {
+            showPage(hash);
         }
+    }
+});
+        
 
         function logout() {
-            if (confirm('Apakah Anda yakin ingin keluar?')) {
-                localStorage.removeItem('session');
-                currentUser = null;
-                showWelcomePage();
-                showToast('Anda telah logout', 'info');
-            }
-        }
+    if (confirm('Apakah Anda yakin ingin keluar?')) {
+        localStorage.removeItem('session');
+        localStorage.removeItem('lastPage'); // Clear last page
+        currentUser = null;
+        showWelcomePage();
+        showToast('Anda telah logout', 'info');
+    }
+}
 
         // ========== UTILITIES ==========
         function toggleDarkMode() {
