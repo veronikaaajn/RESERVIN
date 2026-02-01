@@ -2390,12 +2390,23 @@ document.addEventListener('DOMContentLoaded', function () {
         ];
 
         let currentPlace = null;
-        let currentBooking = null;
-        let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-        let lastViewed = JSON.parse(localStorage.getItem('lastViewed') || '[]');
-        let currentUser = JSON.parse(localStorage.getItem('session') || 'null');
-        let activeCategory = 'all';
-        let currentReservationPlace = null;
+let currentBooking = null;
+let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+let lastViewed = JSON.parse(localStorage.getItem('lastViewed') || '[]');
+let currentUser = JSON.parse(localStorage.getItem('session') || 'null');
+let activeCategory = 'all';
+let currentReservationPlace = null;
+
+// ========== FUNGSI BARU: Simpan dan ambil halaman terakhir ==========
+// Simpan halaman terakhir yang dilihat
+function saveLastPage(pageName) {
+    localStorage.setItem('lastPage', pageName);
+}
+
+// Dapatkan halaman terakhir
+function getLastPage() {
+    return localStorage.getItem('lastPage') || 'home';
+}
         
 
         // ========== ALIZATION ==========
@@ -2449,6 +2460,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
     setupEventListeners();
 }
+// Handle saat halaman di-refresh
+window.addEventListener('beforeunload', function() {
+    // Simpan state penting sebelum refresh
+    if (currentUser) {
+        localStorage.setItem('session', JSON.stringify(currentUser));
+    }
+});
+
+// Handle saat halaman selesai loading
+window.addEventListener('load', function() {
+    // Cek jika ada hash di URL untuk deep linking
+    const hash = window.location.hash.substring(1);
+    if (hash && ['home', 'explore', 'mybooking', 'profile'].includes(hash)) {
+        if (currentUser) {
+            showPage(hash);
+        }
+    }
+});
 // Simpan halaman terakhir yang dilihat
 function saveLastPage(pageName) {
     localStorage.setItem('lastPage', pageName);
@@ -2476,7 +2505,10 @@ function showPage(pageName) {
     if (!['welcome', 'login', 'register'].includes(pageName)) {
         saveLastPage(pageName);
     }
-    
+    // Di akhir initApp, tambahkan:
+if (!localStorage.getItem('lastPage')) {
+    saveLastPage('home'); // Simpan home sebagai default
+}
     // ... kode lainnya tetap sama ...
 }
 
@@ -2541,47 +2573,52 @@ function showPage(pageName) {
 
         // ========== PAGE NAVIGATION ==========
         function showPage(pageName) {
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
 
-            // Show target page
-            const targetPage = document.getElementById(pageName + 'Page');
-            if (targetPage) {
-                targetPage.classList.add('active');
-            }
+    // Show target page
+    const targetPage = document.getElementById(pageName + 'Page');
+    if (targetPage) {
+        targetPage.classList.add('active');
+    }
 
-            // Update bottom nav active state
-            if (['home', 'explore', 'mybooking', 'profile'].includes(pageName)) {
-                document.querySelectorAll('.bottom-navbar .nav-link').forEach(link => {
-                    link.classList.remove('active');
-                });
-                const activeLink = document.querySelector(`.bottom-navbar .nav-link[href="#"][onclick*="${pageName}"]`);
-                if (activeLink) {
-                    activeLink.classList.add('active');
-                }
-            }
+    // Save last page (kecuali untuk auth pages)
+    if (!['welcome', 'login', 'register'].includes(pageName)) {
+        saveLastPage(pageName);
+    }
 
-            // Load page content
-            switch(pageName) {
-                case 'home':
-                    loadHomeContent();
-                    break;
-                case 'explore':
-                    loadExploreContent();
-                    break;
-                case 'mybooking':
-                    loadBookings();
-                    break;
-                case 'profile':
-                    loadProfile();
-                    break;
-                case 'chatBot':
-                    loadChatBot();
-                    break;
-            }
+    // Update bottom nav active state
+    if (['home', 'explore', 'mybooking', 'profile'].includes(pageName)) {
+        document.querySelectorAll('.bottom-navbar .nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        const activeLink = document.querySelector(`.bottom-navbar .nav-link[href="#"][onclick*="${pageName}"]`);
+        if (activeLink) {
+            activeLink.classList.add('active');
         }
+    }
+
+    // Load page content
+    switch(pageName) {
+        case 'home':
+            loadHomeContent();
+            break;
+        case 'explore':
+            loadExploreContent();
+            break;
+        case 'mybooking':
+            loadBookings();
+            break;
+        case 'profile':
+            loadProfile();
+            break;
+        case 'chatBot':
+            loadChatBot();
+            break;
+    }
+}
 
         function goToLogin() {
             showPage('login');
@@ -2599,8 +2636,6 @@ function showPage(pageName) {
             showPage('chatBot');
         }
 
-        saveLastPage('home'); // Simpan home sebagai default
-    showPage('login');
 
 
         // ========== HOME PAGE ==========
@@ -3538,7 +3573,7 @@ window.addEventListener('load', function() {
         
 
         function logout() {
-    if (confirm('Apakah Anda yakin ingin keluar?')) {
+            if (confirm('Apakah Anda yakin ingin keluar?')) {
         localStorage.removeItem('session');
         localStorage.removeItem('lastPage'); // Clear last page
         currentUser = null;
