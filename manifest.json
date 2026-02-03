@@ -2,7 +2,7 @@
   "name": "Reservin - Reservasi Restoran & Cafe Solo",
   "short_name": "Reservin",
   "description": "Platform reservasi restoran dan cafe terpercaya di Solo. Booking meja favoritmu dengan mudah, cepat, dan praktis.",
-  "start_url": "/index.html",
+  "start_url": "./index.html",
   "scope": "/",
   "display": "fullscreen",
   "orientation": "portrait-primary",
