@@ -44,6 +44,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
+        /* ========== ROOT VARIABLES ========== */
         :root {
             --primary: #20a499;
             --secondary: #000000;
@@ -60,9 +61,18 @@
             --card-dark: #000000;
         }
         
+        /* ========== RESET & BASE STYLES ========== */
         * {
             font-family: 'Poppins', sans-serif;
             transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* Fix untuk welcome page - menghilangkan margin putih */
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            width: 100%;
         }
         
         body {
@@ -72,10 +82,20 @@
             background-color: var(--bg-light);
         }
 
+        /* Override untuk body saat welcome page aktif */
+        body.welcome-active {
+            padding: 0 !important;
+            overflow: hidden;
+        }
+
         @media (max-width: 576px) {
             body {
                 padding-top: 60px;
                 padding-bottom: 60px;
+            }
+            
+            body.welcome-active {
+                padding: 0 !important;
             }
         }
         
@@ -90,6 +110,7 @@
             border-color: #444;
         }
         
+        /* ========== NAVBAR STYLES ========== */
         .navbar {
             background-color: var(--primary) !important;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -174,7 +195,7 @@
             margin-bottom: 2px;
         }
         
-        /* Page Container */
+        /* ========== PAGE CONTAINERS ========== */
         .page-container {
             padding: 15px;
         }
@@ -188,13 +209,22 @@
             display: block;
         }
         
-        /* Welcome Page */
+        /* ========== WELCOME PAGE ========== */
         .welcome-page {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             background: linear-gradient(135deg, #000000 0%, #77fcf1 100%);
             color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            overflow: hidden;
         }
         
         .welcome-content {
@@ -205,6 +235,8 @@
             align-items: center;
             padding: 40px 30px;
             text-align: center;
+            height: 100%;
+            width: 100%;
         }
         
         .welcome-logo {
@@ -216,14 +248,16 @@
             font-size: 2rem;
             font-weight: 700;
             margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
         
         .welcome-description {
             font-size: 1rem;
             margin-bottom: 30px;
             line-height: 1.6;
-            opacity: 0.9;
+            opacity: 0.95;
             max-width: 500px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
         
         .welcome-features {
@@ -275,6 +309,7 @@
             font-weight: 600;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             transition: all 0.3s;
+            cursor: pointer;
         }
         
         .btn-start:hover {
@@ -282,7 +317,7 @@
             box-shadow: 0 15px 25px rgba(0,0,0,0.3);
         }
         
-        /* Home Page Styles */
+        /* ========== HOME PAGE STYLES ========== */
         /* Carousel Styles */
         .promo-carousel {
             margin-bottom: 60px;
@@ -473,7 +508,7 @@
             color: #aaa;
         }
         
-        /* Explore Page */
+        /* ========== EXPLORE PAGE ========== */
         .search-bar-sticky {
             position: sticky;
             top: 60px;
@@ -543,6 +578,7 @@
             font-size: 0.8rem;
             color: #666;
             white-space: nowrap;
+            cursor: pointer;
         }
         
         body.dark-mode .category-btn {
@@ -754,7 +790,7 @@
             margin-top: 10px;
         }
         
-        /* Bookings Page */
+        /* ========== BOOKINGS PAGE ========== */
         .booking-tabs {
             display: flex;
             background: white;
@@ -778,6 +814,7 @@
             font-size: 0.85rem;
             font-weight: 500;
             border-radius: 8px;
+            cursor: pointer;
         }
         
         body.dark-mode .booking-tab {
@@ -936,7 +973,7 @@
             color: #aaa;
         }
         
-        /* QR Code Modal */
+        /* ========== QR CODE MODAL ========== */
         .qr-code-container {
             text-align: center;
             padding: 20px;
@@ -958,7 +995,7 @@
             margin-bottom: 10px;
         }
         
-        /* Profile Page */
+        /* ========== PROFILE PAGE ========== */
         .profile-header {
             background: white;
             border-radius: 15px;
@@ -1082,6 +1119,7 @@
             border-radius: 12px;
             font-weight: 500;
             margin-top: 20px;
+            cursor: pointer;
         }
         
         body.dark-mode .logout-btn {
@@ -1090,7 +1128,7 @@
             border-color: #dc3545;
         }
         
-        /* Settings Item */
+        /* ========== SETTINGS ITEM ========== */
         .setting-item {
             display: flex;
             justify-content: space-between;
@@ -1116,7 +1154,7 @@
             color: var(--text-dark);
         }
         
-        /* FAQ Section */
+        /* ========== FAQ SECTION ========== */
         .faq-section {
             background: white;
             border-radius: 15px;
@@ -1154,7 +1192,7 @@
             color: #aaa;
         }
         
-        /* Chat Bot Page */
+        /* ========== CHAT BOT PAGE ========== */
         .chat-bot-container {
             display: flex;
             flex-direction: column;
@@ -1267,6 +1305,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
         }
         
         /* Quick Options */
@@ -1297,7 +1336,7 @@
             color: white;
         }
         
-        /* Contact Section */
+        /* ========== CONTACT SECTION ========== */
         .contact-section {
             background: white;
             border-radius: 15px;
@@ -1317,7 +1356,7 @@
             margin-bottom: 15px;
         }
         
-        /* About Section */
+        /* ========== ABOUT SECTION ========== */
         .about-section {
             background: white;
             border-radius: 15px;
@@ -1330,7 +1369,7 @@
             background: var(--card-dark);
         }
         
-        /* Guest State */
+        /* ========== GUEST STATE ========== */
         .guest-state {
             text-align: center;
             padding: 40px 20px;
@@ -1362,7 +1401,7 @@
             color: #aaa;
         }
         
-        /* Toast */
+        /* ========== TOAST ========== */
         .toast-container {
             position: fixed;
             top: 80px;
@@ -1391,7 +1430,7 @@
             }
         }
         
-        /* Modal Styles */
+        /* ========== MODAL STYLES ========== */
         body.dark-mode .modal-content {
             background-color: var(--card-dark);
             color: var(--text-dark);
@@ -1419,7 +1458,7 @@
             filter: invert(1);
         }
         
-        /* Auth Pages */
+        /* ========== AUTH PAGES ========== */
         .auth-page {
             display: flex;
             align-items: center;
@@ -1496,7 +1535,7 @@
             color: #aaa;
         }
         
-        /* Responsive */
+        /* ========== RESPONSIVE ========== */
         @media (max-width: 576px) {
             .carousel-item img {
                 height: 150px;
@@ -1539,6 +1578,20 @@
             
             .profile-name {
                 font-size: 1.2rem;
+            }
+            
+            .welcome-title {
+                font-size: 1.8rem;
+            }
+            
+            .welcome-description {
+                font-size: 0.9rem;
+                padding: 0 10px;
+            }
+            
+            .btn-start {
+                padding: 12px 30px;
+                font-size: 1rem;
             }
         }
     </style>
@@ -2409,7 +2462,7 @@ function getLastPage() {
 }
         
 
-        // ========== ALIZATION ==========
+        // ========== INITIALIZATION ==========
         function initApp() {
     // Load dark mode
     const isDark = localStorage.getItem('darkMode') === 'true';
@@ -2490,6 +2543,13 @@ function getLastPage() {
 
 // Di fungsi showPage, tambahkan:
 function showPage(pageName) {
+    // Update body class for welcome page
+    if (pageName === 'welcome') {
+        document.body.classList.add('welcome-active');
+    } else {
+        document.body.classList.remove('welcome-active');
+    }
+
     // Hide all pages
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
@@ -2505,13 +2565,37 @@ function showPage(pageName) {
     if (!['welcome', 'login', 'register'].includes(pageName)) {
         saveLastPage(pageName);
     }
-    // Di akhir initApp, tambahkan:
-if (!localStorage.getItem('lastPage')) {
-    saveLastPage('home'); // Simpan home sebagai default
-}
-    // ... kode lainnya tetap sama ...
-}
 
+    // Update bottom nav active state
+    if (['home', 'explore', 'mybooking', 'profile'].includes(pageName)) {
+        document.querySelectorAll('.bottom-navbar .nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        const activeLink = document.querySelector(`.bottom-navbar .nav-link[href="#"][onclick*="${pageName}"]`);
+        if (activeLink) {
+            activeLink.classList.add('active');
+        }
+    }
+
+    // Load page content
+    switch(pageName) {
+        case 'home':
+            loadHomeContent();
+            break;
+        case 'explore':
+            loadExploreContent();
+            break;
+        case 'mybooking':
+            loadBookings();
+            break;
+        case 'profile':
+            loadProfile();
+            break;
+        case 'chatBot':
+            loadChatBot();
+            break;
+    }
+}
         function initSampleBookings() {
             const sampleBookings = [
                 {
@@ -2573,6 +2657,13 @@ if (!localStorage.getItem('lastPage')) {
 
         // ========== PAGE NAVIGATION ==========
         function showPage(pageName) {
+    // Update body class for welcome page
+    if (pageName === 'welcome') {
+        document.body.classList.add('welcome-active');
+    } else {
+        document.body.classList.remove('welcome-active');
+    }
+
     // Hide all pages
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
